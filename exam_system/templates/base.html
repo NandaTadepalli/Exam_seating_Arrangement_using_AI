@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Exam Seating Arrangement System{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+    {% block sidebar %}
+    <!-- Default: no sidebar -->
+    {% endblock %}
+
+    <!-- Mobile sidebar toggle button (only visible when sidebar is present) -->
+    {% block mobile_toggle %}{% endblock %}
+
+    <!-- Sidebar overlay for mobile (only when sidebar is present) -->
+    {% block sidebar_overlay %}{% endblock %}
+
+    <!-- Main content area -->
+    {% block main_wrapper %}
+    <div class="main-content">
+        <div class="container">
+            {% block messages %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endblock %}
+
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+    {% endblock %}
+
+    <!-- Bootstrap JS and custom JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    {% block sidebar_js %}{% endblock %}
+    
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

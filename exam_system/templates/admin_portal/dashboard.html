@@ -4,20 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin</title>
+    <title>Admin Dashboard</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
+    <!-- Mobile sidebar toggle button -->
+    <button class="sidebar-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>☰
+    </button>
+
+    <!-- Sidebar overlay for mobile -->
+    <div class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+    <!-- Sidebar -->
     <div id="sidebar">
         <div class="sidebar-pic">
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKwAAACUCAMAAAA5xjIqAAAAYFBMVEXZ3OFwd3/d4OVyd3tydn9weHtxd33Z3eDg4+huc3fT1ttrcnuboKRweH3HzNBrcHS9wcWJjpKQlJitsbZmbXe2ur6jpqt4f4KUmp50fIPBx8pqc3WAhYlhaHDN0NZla2/UNNnyAAAFJUlEQVR4nO2c7W6zPAxAqQMpIYHwDQVW7v8u30D3vOs+CoQETCXOv02adOSZOE4MjnNycnJycnJycnJycnJysgsA/gPANplDiUaZSJMkFVl0aF+AoOg+8pxfKOU8zz+SLHCO6QvQlFXPL0/QviobOKAuBKJihFy+yRLGKhEczRaguH0L6hf8VsAV2+8ZFdb+b9UxGQ4VXLinrfdSlhCZ3g9jC/fuRQr8g3VHsYWAMDotSxg5hi0ECSPTrioTWHIM23omBz4zocb2VPiiXeJ6IVL42K7Q9OEiWUr7GDkRwJlbCJ50O+SNApRsqeslZCWubFTNLFrPeFWE6QpCLpelXosa2kASHVlPBniufplrZMElpLJEXL46DdUB1qGpQjxXZn/ieWhrLSwsXl9QJrBkg0RXVu1nkB4xiKrXO+4XkSVVhBNaiGe3hr/hSEkLmdSXzTMUV7UvWCHLhYPT6tZr0qC+4sjOtzN/yCZIkV0h6/LkbSLrum8U2beSHXIWKQ3SNbIpiurQJqxZZ5Eq2IqiEMoSxXVNufW8NnubjYzqGbE2Mg3V3SK67qVBkr13+rJ4B7WpbqfgYq1cQyeuK4t4zAGFtqxXoJ3JBJWubIV3b+MvO/T+gtV4JzLQ5HqyPdLC9bDt5u5pnqAE8fRIcS10jjyJxHu8BoJk+ck3RTuO+QQKEi4tY5TgBlbZ1hO3tt/hKfa1HTjVwsrAb/hTHdAsqwxeiLls/eMaL5PFTtgHfnzjdGoFozTktxj9MvSB3ySSvG4aCCGyO0IOPBimTl6vt4Qca+7E8aNkGOgJf1w6Dz8zkkQHm0YDiEXVtt4XyjNs27YSMf6S9Qtw7oXy7XvZPsg/eCWK+wFVRwDgGhWZEHUtyqyIhl9gO03yNeR5cNGTk3flOoJtsZC3kf1/6Tr22jVYOlFclKVQlGXRRM4Rh+pVDIN7LBJVbFvJXc6563Ip1U+JiKPgeqAYD7uCMgn7xzZmODEeTmIpUY2vp/YIXlIeZofgO0XdUT5x6uVy0tUxoLcK6t8/7gzpGM5Xsi4hTO0VcV9aAKcRcvznz8hSSlVGSNHg6fpR7bU6s4gtqSOcZFCNl6eiqjXep/6gRmjHwMmIDIeHXyOyQ7MjSXbdWdeP1twyj/ElLN01F8AvvJ/v0SyXJS3J9qtrcE9z9XzrDHg+26q/y3d7JQSiTk6tVEuQ3T6Tc35ctaGprNdWexx+QTZVWXWCu/1lPmT9ylz9CdncFjK29sH6JUvZtrbK1Y7pyLa2UPS6EwaTsqTf7jgcYu/nmaahLGVbTaFApHsJPo+30WQHBJ3ueMEC2bbbZBfm19Jmwj4IQ7nFrb5fTF1yGNAW1m2hqcg2sl5l/yYnZfRiqRx8hzLbE0lQrNxrLyG3nAjQb5MDI7S3mgfDS2qb5MCD1uacKjQaTewKPGLzGRPMZpn9LdsKa6oQmzYGM7gutRZaqPnWsry2JRsY94ezslRa2iL4Qm6qOmLrTfJA+x21FZDKyswXFFoHWiuh1ErTcF3zJpU+VmaWVX+wYaV94mbhjAaK6dEia8jCwjWf7kDvalkL38EIdgmrIvSM1wNoXn96xzLmY8t+Zr+l/RsqM9O64Gu/Yr1aliTGRWyP8vUpWxmqQrRH+fqUJYYrrWoU95NlhhUXMo2PbpjCDU9AQWi8iGAsa9g3XtM9ZVPDgpvsVGxH2cTMNVj+aSMLsp1RwYV7Rzdtwr9jdrI8fHZjr6VL9Y1m144QdTvKXkxl94zsbLPwH6Q6UMHVaG2dAAAAAElFTkSuQmCC"
-                alt="User_Profile_Picture" style="width: 50px; height: 50px; border-radius: 50%; padding: 7px;">
-            <p style="font-size: 22px; font-family: 'Times New Roman', Times, serif; color: whitesmoke;">
-                {{user.username}}</p>
+                alt="User Profile Picture">
+            <p>{{user.username}}</p>
         </div>
         <div class="sidebar-links">
             <ul>
@@ -50,6 +58,62 @@
             </ul>
         </div>
     </div>
+
+    <!-- Main content area -->
+    <div class="main-content">
+        <div class="container">
+            <h1>Admin Dashboard</h1>
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>System Overview</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Welcome to the Exam Seating Arrangement System. Use the sidebar navigation to manage different aspects of the system.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and custom JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            sidebar.classList.toggle('show');
+            overlay.classList.toggle('show');
+        }
+
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            sidebar.classList.remove('show');
+            overlay.classList.remove('show');
+        }
+
+        // Close sidebar when clicking on links on mobile
+        document.querySelectorAll('.sidebar-links a').forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 767) {
+                    closeSidebar();
+                }
+            });
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 767) {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.querySelector('.sidebar-overlay');
+                sidebar.classList.remove('show');
+                overlay.classList.remove('show');
+            }
+        });
+    </script>
 </body>
 
 </html>
