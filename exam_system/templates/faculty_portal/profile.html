@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Faculty Profile</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container mt-4">
+        <h2>Profile</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label>Faculty ID</label>
+                <input type="text" class="form-control" value="{{ faculty.id }}" readonly>
+            </div>
+            <div class="mb-3">
+                <label>Name</label>
+                <input type="text" class="form-control" value="{{ faculty.username }}" readonly>
+            </div>
+            <div class="mb-3">
+                <label>Department</label>
+                <input type="text" class="form-control" value="{{ faculty.department }}" readonly>
+            </div>
+            <div class="mb-3">
+                <label>Contact Info</label>
+                <input type="text" class="form-control" name="contact" value="{{ faculty.email }}">
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+            <a href="{% url 'faculty-dashboard' %}" class="btn btn-link">Back</a>
+        </form>
+        <a href="{% url 'password_change' %}" class="btn btn-warning mt-3">Change Password</a>
+    </div>
+</body>
+
+</html>
