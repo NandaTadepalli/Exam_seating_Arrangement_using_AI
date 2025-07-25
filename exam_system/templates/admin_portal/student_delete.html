@@ -1,0 +1,16 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Student</title>
+</head>
+<body>
+    <h2>Delete Student ({{ student.student_id }})</h2>
+    <p>Are you sure you want to delete {{ student.name }}?</p>
+    <form method="post">
+        <button type="submit">Confirm Delete</button>
+    </form>
+    <a href="{% url 'admin-students' %}">Back to Student List</a>
+</body>
+</html>

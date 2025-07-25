@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Details</title>
+</head>
+<body>
+    <h2>Student Details</h2>
+    <ul>
+        <li><strong>Student ID:</strong> {{ student.student_id }}</li>
+        <li><strong>Name:</strong> {{ student.name }}</li>
+        <li><strong>Department:</strong> {{ student.department }}</li>
+        <li><strong>Study Year:</strong> {{ student.study_year }}</li>
+        <li><strong>Semester:</strong> {{ student.semester }}</li>
+        <li><strong>Mobile:</strong> {{ student.mobile }}</li>
+        <li><strong>Email:</strong> {{ student.email }}</li>
+    </ul>
+    <a href="{% url 'admin-students' %}">Back to Student List</a>
+</body>
+</html>
