@@ -385,6 +385,32 @@ li {
         padding: 0.5rem;
         font-size: 0.85rem;
     }
+    
+    /* Form improvements for tablets */
+    input[type="text"], 
+    input[type="email"], 
+    input[type="password"],
+    input[type="number"],
+    input[type="date"],
+    input[type="time"],
+    textarea, 
+    select {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+        min-height: 48px;
+    }
+    
+    .form-floating > .form-control,
+    .form-floating > .form-select {
+        min-height: 48px;
+        font-size: 0.9rem;
+        padding: 0.8rem 0.6rem;
+    }
+    
+    .form-floating > label {
+        padding: 0.8rem 0.6rem;
+        font-size: 0.8rem;
+    }
 }
 
 /* Small screens (large phones, 576px to 767px) */
@@ -423,6 +449,32 @@ li {
         min-width: 120px;
         padding: 0.5rem;
         font-size: 0.8rem;
+    }
+    
+    /* Form improvements for small phones */
+    input[type="text"], 
+    input[type="email"], 
+    input[type="password"],
+    input[type="number"],
+    input[type="date"],
+    input[type="time"],
+    textarea, 
+    select {
+        padding: 0.65rem;
+        font-size: 0.85rem;
+        min-height: 46px;
+    }
+    
+    .form-floating > .form-control,
+    .form-floating > .form-select {
+        min-height: 46px;
+        font-size: 0.85rem;
+        padding: 0.75rem 0.6rem;
+    }
+    
+    .form-floating > label {
+        padding: 0.75rem 0.6rem;
+        font-size: 0.75rem;
     }
     
     .btn {
@@ -546,6 +598,28 @@ li {
     select {
         padding: 0.5rem;
         font-size: 0.8rem;
+        min-height: 44px; /* Touch-friendly minimum height */
+    }
+    
+    /* Floating label improvements for mobile */
+    .form-floating > .form-control,
+    .form-floating > .form-select {
+        min-height: 44px;
+        font-size: 0.85rem;
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .form-floating > label {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.75rem;
+    }
+    
+    /* Improve placeholder visibility on mobile */
+    input::placeholder,
+    textarea::placeholder {
+        color: #6c757d;
+        opacity: 0.8;
+        font-size: 0.85rem;
     }
     
     .sidebar-pic {
