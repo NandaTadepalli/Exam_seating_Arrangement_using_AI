@@ -1,0 +1,11 @@
+<div class="pages-main">
+    <h2>Edit Faculty ({{ faculty.faculty_id }})</h2>
+    <form method="post">
+        <p>Name: <input type="text" name="name" value="{{ faculty.name }}" /></p>
+        <p>Department: <input type="text" name="department" value="{{ faculty.department }}" /></p>
+        <p>Mobile: <input type="text" name="mobile" value="{{ faculty.mobile }}" /></p>
+        <p>Email: <input type="email" name="email" value="{{ faculty.email }}" /></p>
+        <button type="submit">Save</button>
+    </form>
+    <a href="{% url 'admin-faculty' %}" class="action-link student-action-link">Back to Faculty List</a>
+</div>

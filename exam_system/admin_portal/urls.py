@@ -1,7 +1,29 @@
-# admin_portal/urls.py
 from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('students/', views.student_list, name='admin-students'),
+    path('students/<str:pk>/', views.student_view, name='student_view'),
+    path('students/<str:pk>/edit/', views.student_edit, name='student_edit'),
+    path('students/<str:pk>/delete/', views.student_delete, name='student_delete'),
     path('', views.dashboard, name='admin-dashboard'),
+    path('students/', views.students, name='admin-students'),
+    path('faculty/', views.faculty_list, name='admin-faculty'),
+    path('faculty/<str:pk>/', views.faculty_view, name='faculty_view'),
+    path('faculty/<str:pk>/edit/', views.faculty_edit, name='faculty_edit'),
+    path('faculty/<str:pk>/delete/', views.faculty_delete, name='faculty_delete'),
+    path('courses/', views.courses, name='admin-courses'),
+    path('rooms/', views.rooms, name='admin-rooms'),
+    path('rooms/<int:pk>/', views.room_view, name='room_view'),
+    path('rooms/<int:pk>/edit/', views.room_edit, name='room_edit'),
+    path('rooms/<int:pk>/delete/', views.room_delete, name='room_delete'),
+    path('exams/', views.exams, name='admin-exams'),
+    path('notifications/', views.notifications, name='admin-notifications'),
+    path('attendance/', views.attendance, name='admin-attendance'),
+    path('report/', views.report, name='admin-report'),
+    path('settings/', views.settings, name='admin-settings'),
+    path('coursereg/', views.coursereg, name='admin-coursereg'),
+    path('upload-student-csv/', views.upload_csv, {'entity_type': 'student'}, name='upload_student_csv'),
+    path('upload-faculty-csv/', views.upload_csv, {'entity_type': 'faculty'}, name='upload_faculty_csv'),
+    path('upload-room-csv/', views.upload_csv, {'entity_type': 'room'}, name='upload_room_csv'),
 ]

@@ -1,0 +1,14 @@
+<div class="pages-main">
+    <h2>Edit Student ({{ student.student_id }})</h2>
+    <form method="post">
+        <!-- Add form fields here for editing -->
+        <p>Name: <input type="text" name="name" value="{{ student.name }}" /></p>
+        <p>Department: <input type="text" name="department" value="{{ student.department }}" /></p>
+        <p>Study Year: <input type="number" name="study_year" value="{{ student.study_year }}" /></p>
+        <p>Semester: <input type="text" name="semester" value="{{ student.semester }}" /></p>
+        <p>Mobile: <input type="text" name="mobile" value="{{ student.mobile }}" /></p>
+        <p>Email: <input type="email" name="email" value="{{ student.email }}" /></p>
+        <button type="submit">Save</button>
+    </form>
+    <a href="{% url 'admin-students' %}" class="student-action-link">Back to Student List</a>
+</div>
