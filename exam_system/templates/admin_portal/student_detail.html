@@ -1,21 +1,28 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Student Details</title>
-</head>
-<body>
-    <h2>Student Details</h2>
-    <ul>
-        <li><strong>Student ID:</strong> {{ student.student_id }}</li>
-        <li><strong>Name:</strong> {{ student.name }}</li>
-        <li><strong>Department:</strong> {{ student.department }}</li>
-        <li><strong>Study Year:</strong> {{ student.study_year }}</li>
-        <li><strong>Semester:</strong> {{ student.semester }}</li>
-        <li><strong>Mobile:</strong> {{ student.mobile }}</li>
-        <li><strong>Email:</strong> {{ student.email }}</li>
-    </ul>
-    <a href="{% url 'admin-students' %}">Back to Student List</a>
-</body>
-</html>
+<div class="pages-main">
+    <div class="view-page">
+        <h1 class="pages-main-head">{{student.student_id}} - {{student.name}}</h1>
+        <p style="color:red;"><strong>Note:</strong> This page displays the details of the selected student.</p>
+        <h2>Student Details</h2>
+        <div class="view-actions">
+
+            <table class="details-table">
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Student ID</td><td>{{ student.student_id }}</td></tr>
+                    <tr><td>Name</td><td>{{ student.name }}</td></tr>
+                    <tr><td>Department</td><td>{{ student.department }}</td></tr>
+                    <tr><td>Study Year</td><td>{{ student.study_year }}</td></tr>
+                    <tr><td>Semester</td><td>{{ student.semester }}</td></tr>
+                    <tr><td>Mobile</td><td>{{ student.mobile }}</td></tr>
+                    <tr><td>Email</td><td>{{ student.email }}</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <a href="{% url 'admin-students' %}" class="action-link student-action-link">Back</a>
+    </div>
+</div>
