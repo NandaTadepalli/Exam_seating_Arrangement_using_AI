@@ -35,7 +35,7 @@
                     <li><img src="https://img.icons8.com/ios-filled/50/ffffff/open-book.png" alt="Course Data Icon"><a
                                 href="/admin-portal/coursereg/" data-page="coursereg">Student Courses Data</a></li>
                     <li><img src="https://img.icons8.com/ios-filled/50/ffffff/floor-plan.png"
-                                alt="Room Allocation Icon"><a href="/admin-portal/#/" data-page="rooms">Room
+                                alt="Room Allocation Icon"><a href="/admin-portal/roomallocation/" data-page="roomalloc">Room
                                 Allocation</a></li>
                     <li><img src="https://img.icons8.com/ios-filled/50/ffffff/combo-chart.png" alt="Reports Icon"><a
                                 href="/admin-portal/report/" data-page="report">Reports & Analytics</a></li>
@@ -173,6 +173,34 @@
                 loadPageContent(currentPath, false); // Load content without pushing new state
             }
         });
+    // --- Student Action AJAX Navigation ---
+    // This will delegate clicks for view/edit/delete links inside student.html
+    document.addEventListener('click', function(e) {
+        // Handle AJAX navigation for student, room, and faculty action links
+        const studentTarget = e.target.closest('a.student-action-link');
+        const roomTarget = e.target.closest('a.room-action-link');
+        const facultyTarget = e.target.closest('a.faculty-action-link');
+
+        if (studentTarget) {
+            e.preventDefault();
+            const href = studentTarget.getAttribute('href');
+            if (href) {
+                loadPageContent(href); // Load content and push state
+            }
+        } else if (roomTarget) {
+            e.preventDefault();
+            const href = roomTarget.getAttribute('href');
+            if (href) {
+                loadPageContent(href); // Load content and push state
+            }
+        } else if (facultyTarget) {
+            e.preventDefault();
+            const href = facultyTarget.getAttribute('href');
+            if (href) {
+                loadPageContent(href); // Load content and push state
+            }
+        }
+    });
     </script>
 </body>
 

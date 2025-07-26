@@ -84,9 +84,15 @@
         </div>
 
         <div class="actions">
-            <button type="button" id="resetStudentFilters"><img src="https://img.icons8.com/?size=100&id=12494&format=png&color=ffffff" alt="Reset_img">Reset</button>
-            <button type="button" id="printStudentBtn"><img src="https://img.icons8.com/?size=100&id=85372&format=png&color=ffffff" alt="Print_img">Print</button>
-            <button type="button" id="downloadStudentBtn"><img src="https://img.icons8.com/?size=100&id=83159&format=png&color=ffffff" alt="Download_img">Download Data</button>
+            <button type="button" id="resetStudentFilters"><img
+                    src="https://img.icons8.com/?size=100&id=12494&format=png&color=ffffff"
+                    alt="Reset_img">Reset</button>
+            <button type="button" id="printStudentBtn"><img
+                    src="https://img.icons8.com/?size=100&id=85372&format=png&color=ffffff"
+                    alt="Print_img">Print</button>
+            <button type="button" id="downloadStudentBtn"><img
+                    src="https://img.icons8.com/?size=100&id=83159&format=png&color=ffffff" alt="Download_img">Download
+                Data</button>
         </div>
 
         <div class="table">
@@ -116,13 +122,16 @@
                         <td>{{ student.mobile }}</td>
                         <td>{{ student.email }}</td>
                         <td>
-                            <a href="{% url 'student_view' student.student_id %}">View</a>
-                            <a href="{% url 'student_edit' student.student_id %}">Edit</a>
-                            <a href="{% url 'student_delete' student.student_id %}">Delete</a>
+                            <a href="{% url 'student_view' student.student_id %}" class="student-action-link">View</a>
+                            <a href="{% url 'student_edit' student.student_id %}" class="student-action-link">Edit</a>
+                            <a href="{% url 'student_delete' student.student_id %}"
+                                class="student-action-link">Delete</a>
                         </td>
                     </tr>
                     {% empty %}
-                    <tr><td colspan="9">No students found.</td></tr>
+                    <tr>
+                        <td colspan="9">No students found.</td>
+                    </tr>
                     {% endfor %}
                 </tbody>
             </table>
@@ -130,4 +139,5 @@
     </div>
     <script src="{% static 'js/scripts.js' %}"></script>
 </body>
+
 </html>

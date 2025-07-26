@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,8 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rooms Management</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}"> </head>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
 
 <body>
     <div class="pages-main">
@@ -21,14 +22,6 @@
                 <a class="control-btn" href="addroom.html">Add new room</a>
                 <label for="uploadFile" class="control-btn" style="cursor: pointer;">Upload File</label>
                 <input type="file" id="uploadFile" data-entity="room" style="display: none;" accept=".csv">
-    <!-- Error Modal for Uploads (moved outside add-data for correct layout) -->
-    <div id="errorModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center;">
-        <div style="background:#fff; padding:2em; border-radius:8px; max-width:400px; margin:auto;">
-            <span id="errorModalMessage" style="color:red;"></span><br>
-            <a id="downloadErrorCsv" style="display:none; margin-top:1em;" download="error_report.csv">Download Error Report</a><br>
-            <button onclick="document.getElementById('errorModal').style.display='none'">Close</button>
-        </div>
-    </div>
                 <a href="roomsdata.csv" download class="control-btn">Download Sample CSV</a>
             </div>
         </div>
@@ -56,55 +49,56 @@
                 <input type="number" id="capacity-max" min="0" placeholder="Max">
 
             </form>
-            <div class="actions">
-                <button type="button" id="resetRoomFilters">
-                    <img src="https://img.icons8.com/?size=100&id=12494&format=png&color=ffffff" alt="Reset_img">Reset
-                </button>
-                <button type="button" id="printRoomBtn">
-                    <img src="https://img.icons8.com/?size=100&id=85372&format=png&color=ffffff" alt="Print_img">Print
-                </button>
-                <button type="button" id="downloadRoomBtn">
-                    <img src="https://img.icons8.com/?size=100&id=83159&format=png&color=ffffff"
-                        alt="Download_img">Download Data
-                </button>
-            </div>
-            <div class="table">
-                <table id="room-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Room ID</th>
-                            <th>Block</th>
-                            <th>Room Capacity</th>
-                            <th>Rows</th>
-                            <th>Columns</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="rooms-list">
-                        {% for room in rooms %}
-                        <tr>
-                            <td>{{ forloop.counter }}</td>
-                            <td>{{ room.room_id }}</td>
-                            <td>{{ room.block }}</td>
-                            <td>{{ room.capacity }}</td>
-                            <td>{{ room.rowscount }}</td>
-                            <td>{{ room.columnscount }}</td>
-                            <td>
-                                <a href="{% url 'room_view' room.id %}">View</a>
-                                <a href="{% url 'room_edit' room.id %}">Edit</a>
-                                <a href="{% url 'room_delete' room.id %}">Delete</a>
-                            </td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="7">No rooms found.</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
         </div>
+        <div class="actions">
+            <button type="button" id="resetRoomFilters">
+                <img src="https://img.icons8.com/?size=100&id=12494&format=png&color=ffffff" alt="Reset_img">Reset
+            </button>
+            <button type="button" id="printRoomBtn">
+                <img src="https://img.icons8.com/?size=100&id=85372&format=png&color=ffffff" alt="Print_img">Print
+            </button>
+            <button type="button" id="downloadRoomBtn">
+                <img src="https://img.icons8.com/?size=100&id=83159&format=png&color=ffffff" alt="Download_img">Download
+                Data
+            </button>
+        </div>
+        <div class="table">
+            <table id="room-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Room ID</th>
+                        <th>Block</th>
+                        <th>Room Capacity</th>
+                        <th>Rows</th>
+                        <th>Columns</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="rooms-list">
+                    {% for room in rooms %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ room.room_id }}</td>
+                        <td>{{ room.block }}</td>
+                        <td>{{ room.capacity }}</td>
+                        <td>{{ room.rowscount }}</td>
+                        <td>{{ room.columnscount }}</td>
+                        <td>
+                            <a href="{% url 'room_view' room.id %}" class="room-action-link">View</a>
+                            <a href="{% url 'room_edit' room.id %}" class="room-action-link">Edit</a>
+                            <a href="{% url 'room_delete' room.id %}" class="room-action-link">Delete</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7">No rooms found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
     </div>
     <script src="{% static 'js/scripts.js' %}"></script>
 </body>

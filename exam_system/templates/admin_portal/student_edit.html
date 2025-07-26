@@ -1,11 +1,4 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Student</title>
-</head>
-<body>
+<div class="pages-main">
     <h2>Edit Student ({{ student.student_id }})</h2>
     <form method="post">
         <!-- Add form fields here for editing -->
@@ -17,6 +10,5 @@
         <p>Email: <input type="email" name="email" value="{{ student.email }}" /></p>
         <button type="submit">Save</button>
     </form>
-    <a href="{% url 'admin-students' %}">Back to Student List</a>
-</body>
-</html>
+    <a href="{% url 'admin-students' %}" class="student-action-link">Back to Student List</a>
+</div>

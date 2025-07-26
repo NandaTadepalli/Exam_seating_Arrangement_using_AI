@@ -109,9 +109,9 @@
                             <td>{{ faculty.mobile }}</td>
                             <td>{{ faculty.email }}</td>
                             <td>
-                                <a href="#">View</a>
-                                <a href="#">Edit</a>
-                                <a href="#">Delete</a>
+                                <a href="{% url 'faculty_view' faculty.faculty_id %}" class="faculty-action-link">View</a>
+                                <a href="{% url 'faculty_edit' faculty.faculty_id %}" class="faculty-action-link">Edit</a>
+                                <a href="{% url 'faculty_delete' faculty.faculty_id %}" class="faculty-action-link">Delete</a>
                             </td>
                         </tr>
                         {% empty %}

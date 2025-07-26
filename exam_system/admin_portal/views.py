@@ -208,12 +208,27 @@ from .models import Student
 def student_list(request):
     students = Student.objects.all()
     return render(request, 'admin_portal/student.html', {'students': students})
+
 from django.shortcuts import render
 from .models import Faculty
 
 def faculty_list(request):
     faculties = Faculty.objects.all()
     return render(request, 'admin_portal/faculty.html', {'faculties': faculties})
+
+def faculty_view(request, pk):
+    faculty = Faculty.objects.get(faculty_id=pk)
+    return render(request, 'admin_portal/faculty_detail.html', {'faculty': faculty})
+
+def faculty_edit(request, pk):
+    faculty = Faculty.objects.get(faculty_id=pk)
+    # Add form handling logic here if needed
+    return render(request, 'admin_portal/faculty_edit.html', {'faculty': faculty})
+
+def faculty_delete(request, pk):
+    faculty = Faculty.objects.get(faculty_id=pk)
+    # Add delete logic here if needed
+    return render(request, 'admin_portal/faculty_delete.html', {'faculty': faculty})
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
