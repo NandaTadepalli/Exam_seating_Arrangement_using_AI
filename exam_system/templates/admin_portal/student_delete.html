@@ -1,8 +1,12 @@
-<div class="pages-main">
-    <h2>Delete Student ({{ student.student_id }})</h2>
-    <p>Are you sure you want to delete {{ student.name }}?</p>
-    <form method="post">
-        <button type="submit">Confirm Delete</button>
-    </form>
-    <a href="{% url 'admin-students' %}" class="action-link student-action-link">Back to Student List</a>
-</div>
+{% extends "admin_portal/base_admin.html" %}
+{% load static %}
+{% block main_content %}
+    <div class="pages-main">
+        <h2>Delete Student ({{ student.student_id }})</h2>
+        <p>Are you sure you want to delete {{ student.name }}?</p>
+        <form method="post">
+            <button type="submit">Confirm Delete</button>
+        </form>
+        <a href="{% url 'admin-students' %}" class="action-link student-action-link">Back to Student List</a>
+    </div>
+{% endblock %}

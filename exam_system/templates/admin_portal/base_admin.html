@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+</head>
+<body>
+    <button class="hamburger" id="openSidebarBtn" aria-label="Open sidebar">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+    <div id="page">
+        <div id="sidebar">
+            <button class="close-btn" id="closeSidebarBtn" aria-label="Close sidebar">&times;</button>
+            <div class="sidebar-pic">
+                <img src="{% static 'images/user.jpg' %}" alt="User_Profile_Picture" style="width: 50px; height: 50px; border-radius: 50%; padding: 7px;">
+                <p style="font-size: 22px; font-family: 'Times New Roman', Times, serif; color: whitesmoke; word-wrap: break-word;max-width: 150px;">
+                    {{ user.username }}</p>
+            </div>
+            <div class="sidebar-links">
+                <ul>
+                    <li><img src="https://img.icons8.com/?size=100&id=6ocfyfPqD0qz&format=png&color=ffffff" alt="Dashboard Icon"><a href="/admin-portal/" data-page="dashboard">Dashboard</a></li>
+                    <li><img src="https://img.icons8.com/ios-filled/50/ffffff/student-male.png" alt="Student Icon"><a href="/admin-portal/students/" data-page="students">Student Management</a></li>
+                    <li><img src="https://img.icons8.com/ios-filled/50/ffffff/teacher.png" alt="Faculty Icon"><a href="/admin-portal/faculty/" data-page="faculty">Faculty Management</a></li>
+                    <li><img src="https://img.icons8.com/ios-filled/50/ffffff/classroom.png" alt="Room Icon"><a href="/admin-portal/rooms/" data-page="rooms">Room Management</a></li>
+                    <li><img src="https://img.icons8.com/ios-filled/50/ffffff/book.png" alt="Course Icon"><a href="/admin-portal/courses/" data-page="courses">Course Management</a></li>
+                    <li><img src="https://img.icons8.com/?size=100&id=65285&format=png&color=FFFFFF" alt="Exam Icon"><a href="/admin-portal/exams/" data-page="exams">Exam Schedule</a></li>
+                    <li><img src="https://img.icons8.com/ios-filled/50/ffffff/open-book.png" alt="Course Data Icon"><a href="/admin-portal/coursereg/" data-page="coursereg">Student Courses Data</a></li>
+                    <li><img src="https://img.icons8.com/ios-filled/50/ffffff/floor-plan.png" alt="Room Allocation Icon"><a href="/admin-portal/roomallocation/" data-page="roomalloc">Room Allocation</a></li>
+                    <li><img src="https://img.icons8.com/ios-filled/50/ffffff/combo-chart.png" alt="Reports Icon"><a href="/admin-portal/report/" data-page="report">Reports & Analytics</a></li>
+                    <li><img src="https://img.icons8.com/ios-filled/50/ffffff/attendance-mark.png" alt="Attendance Icon"><a href="/admin-portal/attendance/" data-page="attendance">Attendance Data</a></li>
+                    <li><img src="https://img.icons8.com/ios-filled/50/ffffff/appointment-reminders.png" alt="Notifications Icon"><a href="/admin-portal/notifications/" data-page="notifications">Notifications</a></li>
+                    <li><img src="https://img.icons8.com/ios-filled/50/ffffff/settings.png" alt="Settings Icon"><a href="/admin-portal/settings/" data-page="settings">Settings</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="content" id="main-content">
+            {% block main_content %}{% endblock %}
+        </div>
+    </div>
+    <script>
+  const sidebar = document.getElementById('sidebar');
+  const openBtn = document.getElementById('openSidebarBtn');
+  const closeBtn = document.getElementById('closeSidebarBtn');
+  const mainContent = document.getElementById('main-content');
+
+  function openSidebar() {
+    sidebar.classList.add('active');
+    document.body.classList.add('sidebar-open');
+    openBtn.style.display = 'none'; // Hide hamburger
+  }
+
+  function closeSidebar() {
+    sidebar.classList.remove('active');
+    document.body.classList.remove('sidebar-open');
+    openBtn.style.display = 'flex'; // Show hamburger
+  }
+
+  openBtn.addEventListener('click', openSidebar);
+  closeBtn.addEventListener('click', closeSidebar);
+
+  mainContent.addEventListener('click', function () {
+    if (window.innerWidth <= 900 && sidebar.classList.contains('active')) {
+      closeSidebar();
+    }
+  });
+
+  // Ensure correct state on resize
+  function handleResize() {
+    if (window.innerWidth > 900) {
+      sidebar.classList.remove('active');
+      document.body.classList.remove('sidebar-open');
+      openBtn.style.display = 'none';
+    } else {
+      openBtn.style.display = sidebar.classList.contains('active') ? 'none' : 'flex';
+    }
+  }
+
+  window.addEventListener('resize', handleResize);
+  window.addEventListener('DOMContentLoaded', handleResize);
+</script>
+
+    <script src="{% static 'js/scripts.js' %}"></script>
+</body>
+</html>

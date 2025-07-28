@@ -1,3 +1,15 @@
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import JsonResponse
+from django.db import transaction, IntegrityError
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+import csv
+import io
+from .models import Student, Faculty, Room
+
+@login_required
+def room_allocation(request):
+    return render(request, 'admin_portal/roomalloc.html')
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse

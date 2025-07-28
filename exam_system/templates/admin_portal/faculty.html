@@ -1,131 +1,118 @@
+{% extends "admin_portal/base_admin.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Faculty Management</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-</head>
-
-<body>
-    <div id="main-content">
-        <div class="pages-main">
-            <h1 class="pages-main-head">Faculty Management</h1>
-            <div class="note-and-actions">
-                <div class="note-text">
-                    <p style="color: red;"><strong>Note:</strong> Upload faculty data in <strong>.csv</strong> format.
-                    </p>
-                    <p style="color: red;">(Download the sample .csv file and add data in the specified structure to
-                        avoid errors)</p>
-                </div>
-                <div class="add-data">
-                    <a class="control-btn" href="#">Add new faculty</a>
-                    <label for="uploadFile" class="control-btn" style="cursor: pointer;">Upload File</label>
-                    <input type="file" id="uploadFile" style="display: none;" accept=".csv" />
-                    <a href="{% static 'csv/facultydata.csv' %}" download class="control-btn">Download Sample CSV</a>
-                </div>
+{% block main_content %}
+    <div class="pages-main">
+        <h1 class="pages-main-head">Faculty Management</h1>
+        <div class="note-and-actions">
+            <div class="note-text">
+                <p style="color: red;"><strong>Note:</strong> Upload faculty data in <strong>.csv</strong> format.
+                </p>
+                <p style="color: red;">(Download the sample .csv file and add data in the specified structure to
+                    avoid errors)</p>
             </div>
-
-            <div class="controls">
-                <form onsubmit="return false;">
-                    <label for="search">Search Faculty:</label>
-                    <input type="text" id="search" placeholder="Enter Faculty name or ID" />
-
-                    <label for="department">Department:</label>
-                    <select id="department">
-                        <option value="all">All Departments</option>
-                        <option value="computer science and engineering">Computer Science and Engineering (CSE)</option>
-                        <option value="artificial intelligence and data science">Artificial Intelligence and Data
-                            Science
-                            (AI&DS)</option>
-                        <option value="information technology">Information Technology (IT)</option>
-                        <option value="electronics and communication engineering">Electronics and Communication
-                            Engineering
-                            (ECE)</option>
-                        <option value="electrical and electronics engineering">Electrical and Electronics Engineering
-                            (EEE)
-                        </option>
-                        <option value="mechanical engineering">Mechanical Engineering (ME)</option>
-                        <option value="civil engineering">Civil Engineering (CE)</option>
-                        <option value="chemical engineering">Chemical Engineering</option>
-                        <option value="biomedical engineering">Biomedical Engineering</option>
-                        <option value="aeronautical engineering">Aeronautical Engineering</option>
-                        <option value="automobile engineering">Automobile Engineering</option>
-                        <option value="robotics and automation">Robotics and Automation</option>
-                        <option value="mechatronics">Mechatronics</option>
-                        <option value="data science">Data Science</option>
-                        <option value="cyber security">Cyber Security</option>
-                        <option value="agricultural engineering">Agricultural Engineering</option>
-                        <option value="pharmaceutical sciences">Pharmaceutical Sciences</option>
-                        <option value="business administration">Business Administration (MBA)</option>
-                        <option value="commerce">Commerce (B.Com)</option>
-                        <option value="mathematics">Mathematics</option>
-                        <option value="physics">Physics</option>
-                        <option value="chemistry">Chemistry</option>
-                        <option value="english">English</option>
-                        <option value="economics">Economics</option>
-                        <option value="psychology">Psychology</option>
-                    </select>
-                </form>
+            <div class="add-data">
+                <a class="control-btn" href="#">Add new faculty</a>
+                <label for="uploadFile" class="control-btn" style="cursor: pointer;">Upload File</label>
+                <input type="file" id="uploadFile" style="display: none;" accept=".csv" />
+                <a href="{% static 'csv/facultydata.csv' %}" download class="control-btn">Download Sample CSV</a>
             </div>
+        </div>
 
-            <div class="actions">
-    <button type="button" id="resetFacultyFilters">
-        <img src="https://img.icons8.com/?size=100&id=12494&format=png&color=ffffff" alt="Reset" />
-        Reset
-    </button>
-    <button type="button" id="printFacultyBtn">
-        <img src="https://img.icons8.com/?size=100&id=85372&format=png&color=ffffff" alt="Print" />
-        Print
-    </button>
-    <button type="button" id="downloadFacultyBtn">
-        <img src="https://img.icons8.com/?size=100&id=83159&format=png&color=ffffff" alt="Download" />
-        Download Data
-    </button>
-</div>
+        <div class="controls">
+            <form onsubmit="return false;">
+                <label for="search">Search Faculty:</label>
+                <input type="text" id="search" placeholder="Enter Faculty name or ID" />
 
-            <div class="table">
-                <table id="faculty-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Faculty ID</th>
-                            <th>Name</th>
-                            <th>Department</th>
-                            <th>Mobile</th>
-                            <th>Email</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="faculty-list">
-                        {% for faculty in faculties %}
-                        <tr>
-                            <td>{{ forloop.counter }}</td>
-                            <td>{{ faculty.faculty_id }}</td>
-                            <td>{{ faculty.name }}</td>
-                            <td>{{ faculty.department }}</td>
-                            <td>{{ faculty.mobile }}</td>
-                            <td>{{ faculty.email }}</td>
-                            <td>
-                                <a href="{% url 'faculty_view' faculty.faculty_id %}" class="faculty-action-link">View</a>
-                                <a href="{% url 'faculty_edit' faculty.faculty_id %}" class="faculty-action-link">Edit</a>
-                                <a href="{% url 'faculty_delete' faculty.faculty_id %}" class="faculty-action-link">Delete</a>
-                            </td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="7">No faculty found.</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                <label for="department">Department:</label>
+                <select id="department">
+                    <option value="all">All Departments</option>
+                    <option value="computer science and engineering">Computer Science and Engineering (CSE)</option>
+                    <option value="artificial intelligence and data science">Artificial Intelligence and Data
+                        Science
+                        (AI&DS)</option>
+                    <option value="information technology">Information Technology (IT)</option>
+                    <option value="electronics and communication engineering">Electronics and Communication
+                        Engineering
+                        (ECE)</option>
+                    <option value="electrical and electronics engineering">Electrical and Electronics Engineering
+                        (EEE)
+                    </option>
+                    <option value="mechanical engineering">Mechanical Engineering (ME)</option>
+                    <option value="civil engineering">Civil Engineering (CE)</option>
+                    <option value="chemical engineering">Chemical Engineering</option>
+                    <option value="biomedical engineering">Biomedical Engineering</option>
+                    <option value="aeronautical engineering">Aeronautical Engineering</option>
+                    <option value="automobile engineering">Automobile Engineering</option>
+                    <option value="robotics and automation">Robotics and Automation</option>
+                    <option value="mechatronics">Mechatronics</option>
+                    <option value="data science">Data Science</option>
+                    <option value="cyber security">Cyber Security</option>
+                    <option value="agricultural engineering">Agricultural Engineering</option>
+                    <option value="pharmaceutical sciences">Pharmaceutical Sciences</option>
+                    <option value="business administration">Business Administration (MBA)</option>
+                    <option value="commerce">Commerce (B.Com)</option>
+                    <option value="mathematics">Mathematics</option>
+                    <option value="physics">Physics</option>
+                    <option value="chemistry">Chemistry</option>
+                    <option value="english">English</option>
+                    <option value="economics">Economics</option>
+                    <option value="psychology">Psychology</option>
+                </select>
+            </form>
+        </div>
+
+        <div class="actions">
+            <button type="button" id="resetFacultyFilters">
+                <img src="https://img.icons8.com/?size=100&id=12494&format=png&color=ffffff" alt="Reset" />
+                Reset
+            </button>
+            <button type="button" id="printFacultyBtn">
+                <img src="https://img.icons8.com/?size=100&id=85372&format=png&color=ffffff" alt="Print" />
+                Print
+            </button>
+            <button type="button" id="downloadFacultyBtn">
+                <img src="https://img.icons8.com/?size=100&id=83159&format=png&color=ffffff" alt="Download" />
+                Download Data
+            </button>
+        </div>
+
+        <div class="table">
+            <table id="faculty-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Faculty ID</th>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Mobile</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="faculty-list">
+                    {% for faculty in faculties %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ faculty.faculty_id }}</td>
+                        <td>{{ faculty.name }}</td>
+                        <td>{{ faculty.department }}</td>
+                        <td>{{ faculty.mobile }}</td>
+                        <td>{{ faculty.email }}</td>
+                        <td>
+                            <a href="{% url 'faculty_view' faculty.faculty_id %}" class="faculty-action-link">View</a>
+                            <a href="{% url 'faculty_edit' faculty.faculty_id %}" class="faculty-action-link">Edit</a>
+                            <a href="{% url 'faculty_delete' faculty.faculty_id %}" class="faculty-action-link">Delete</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7">No faculty found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 
     <script src="{% static 'js/scripts.js' %}"></script>
-</body>
-
-</html>
+{% endblock %}

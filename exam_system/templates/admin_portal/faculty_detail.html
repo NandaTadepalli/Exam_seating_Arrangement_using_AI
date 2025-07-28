@@ -1,26 +1,29 @@
-<div class="pages-main">
-    <div class="view-page">
-        <h1 class="pages-main-head">{{ faculty.faculty_id }} - {{ faculty.name }}</h1>
-        <p style="color:red;"><strong>Note:</strong> This page displays the details of the selected faculty.</p>
-        <h2>Faculty Details</h2>
-        <div class="view-actions">
-            <table class="details-table">
-                <thead>
-                    <tr>
-                        <th>Field</th>
-                        <th>Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>Faculty ID</td><td>{{ faculty.faculty_id }}</td></tr>
-                    <tr><td>Name</td><td>{{ faculty.name }}</td></tr>
-                    <tr><td>Department</td><td>{{ faculty.department }}</td></tr>
-                    <tr><td>Mobile</td><td>{{ faculty.mobile }}</td></tr>
-                    <tr><td>Email</td><td>{{ faculty.email }}</td></tr>
-                </tbody>
-            </table>
+{% extends "admin_portal/base_admin.html" %}
+{% load static %}
+{% block main_content %}
+    <div class="pages-main">
+        <div class="view-page">
+            <h1 class="pages-main-head">{{ faculty.faculty_id }} - {{ faculty.name }}</h1>
+            <p style="color:red;"><strong>Note:</strong> This page displays the details of the selected faculty.</p>
+            <h2>Faculty Details</h2>
+            <div class="view-actions">
+                <table class="details-table">
+                    <thead>
+                        <tr>
+                            <th>Field</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Faculty ID</td><td>{{ faculty.faculty_id }}</td></tr>
+                        <tr><td>Name</td><td>{{ faculty.name }}</td></tr>
+                        <tr><td>Department</td><td>{{ faculty.department }}</td></tr>
+                        <tr><td>Mobile</td><td>{{ faculty.mobile }}</td></tr>
+                        <tr><td>Email</td><td>{{ faculty.email }}</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <a href="{% url 'admin-faculty' %}" class="action-link faculty-action-link">Back</a>
         </div>
-        <a href="{% url 'admin-faculty' %}" class="action-link faculty-action-link">Back</a>
     </div>
-</div>
-
+{% endblock %}

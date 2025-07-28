@@ -1,11 +1,15 @@
-<div class="pages-main">
-    <h2>Edit Room ({{ room.room_id }})</h2>
-    <form method="post">
-        <p>Block: <input type="text" name="block" value="{{ room.block }}" /></p>
-        <p>Capacity: <input type="number" name="capacity" value="{{ room.capacity }}" /></p>
-        <p>Rows: <input type="number" name="rowscount" value="{{ room.rowscount }}" /></p>
-        <p>Columns: <input type="number" name="columnscount" value="{{ room.columnscount }}" /></p>
-        <button type="submit">Save</button>
-    </form>
-    <a href="{% url 'admin-rooms' %}" class="action-link room-action-link">Back to Room List</a>
-</div>
+{% extends "admin_portal/base_admin.html" %}
+{% load static %}
+{% block main_content %}
+    <div class="pages-main">
+        <h2>Edit Room ({{ room.room_id }})</h2>
+        <form method="post">
+            <p>Block: <input type="text" name="block" value="{{ room.block }}" /></p>
+            <p>Capacity: <input type="number" name="capacity" value="{{ room.capacity }}" /></p>
+            <p>Rows: <input type="number" name="rowscount" value="{{ room.rowscount }}" /></p>
+            <p>Columns: <input type="number" name="columnscount" value="{{ room.columnscount }}" /></p>
+            <button type="submit">Save</button>
+        </form>
+        <a href="{% url 'admin-rooms' %}" class="action-link room-action-link">Back to Room List</a>
+    </div>
+{% endblock %}
