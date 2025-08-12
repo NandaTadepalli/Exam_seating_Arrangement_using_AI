@@ -430,6 +430,24 @@ function downloadRoomCSV() {
     document.body.removeChild(link);
 }
 
+// ============ SIDEBAR ACTIVE LINK SCRIPT ============
+document.addEventListener("DOMContentLoaded", function() {
+    // Select all sidebar links
+    const sidebarLinks = document.querySelectorAll('.sidebar-links ul li a');
+    const currentPath = window.location.pathname.replace(/\/$/, '');
+
+    sidebarLinks.forEach(link => {
+        const linkPath = link.pathname.replace(/\/$/, '');
+        if (linkPath === currentPath) {
+            // Add active to both <a> and parent <li>
+            link.classList.add('active');
+            if (link.parentElement && link.parentElement.tagName === 'LI') {
+                link.parentElement.classList.add('active');
+            }
+        }
+    });
+});
+
 // ============ GLOBAL INITIALIZER ============
 document.addEventListener("DOMContentLoaded", () => {
     console.log('DOM fully loaded');
@@ -458,4 +476,5 @@ function initializeContentScripts(pageUrl) {
     }
     // Add more conditions for other pages if they have unique JS initialization
 }
+
 

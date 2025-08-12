@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from django.contrib.auth.views import LoginView, LogoutView
 
 urlpatterns = [
     path('roomallocation/', views.room_allocation, name='admin-roomalloc'),
@@ -7,6 +8,7 @@ urlpatterns = [
     path('students/<str:pk>/', views.student_view, name='student_view'),
     path('students/<str:pk>/edit/', views.student_edit, name='student_edit'),
     path('students/<str:pk>/delete/', views.student_delete, name='student_delete'),
+    path('accounts/login/', LogoutView.as_view(next_page='login'), name='logout'),
     path('', views.dashboard, name='admin-dashboard'),
     path('students/', views.students, name='admin-students'),
     path('faculty/', views.faculty_list, name='admin-faculty'),

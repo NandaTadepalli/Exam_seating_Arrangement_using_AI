@@ -1,19 +1,24 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 <body>
-    <h1>Login</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-        <a href="{% url 'password_reset' %}">Forgot Password?</a>
-
-    </form>
+    <div class="login">
+        <div class="login-fields" title="Please enter your credentials to login">
+            <img class="login-icon" src="https://img.icons8.com/?size=100&id=1Wf241bLN9LO&format=png&color=1E3A5F" alt="LoginIcon">
+            <h1>Login</h1>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Login</button>
+                <a href="{% url 'password_reset' %}">Forgot Password?</a>
+            </form>
+        </div>
+    </div>
 </body>
 
 </html>
