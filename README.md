@@ -1,4 +1,4 @@
-# Exam Seating & Invigilation System
+# Digitized Exam Administration: A Scalable, Automated System for Examination Seating Allocation and Invigilation Scheduling
 
 ## Project Overview
 A Django-based web application for managing exam seating, invigilation duties, attendance, and malpractice reporting. Includes portals for admin, faculty, and students.
