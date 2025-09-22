@@ -426,6 +426,56 @@ table tbody tr td li {
   border-bottom: 1px solid #ddd;
 }
 
+/* Notification Page Styles */
+.notification-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.notification-card .card-header {
+    background: #1E3A5F;
+    color: white;
+    padding: 15px 20px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.notification-card .card-body {
+    padding: 20px;
+}
+
+.send-notification, 
+.resend-notification {
+    min-width: 120px;
+}
+
+.send-notification:disabled {
+    background-color: #a0aec0;
+    cursor: not-allowed;
+}
+
+.badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+}
+
+.badge-success {
+    background-color: #48bb78;
+    color: white;
+}
+
+.badge-danger {
+    background-color: #f56565;
+    color: white;
+}
+
+.notification-history td {
+    vertical-align: middle;
+}
+
 /* Responsive Rules */
 @media (max-width: 900px) {
   .hamburger {

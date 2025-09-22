@@ -3,7 +3,101 @@
 {% block main_content %}
     <div class="pages-main">
         <h1 class="pages-main-head">Course Management</h1>
-        <p>This page is under construction. Please check back later.</p>
-        <p>For now, you can navigate to other sections using the sidebar.</p>
+        <div class="note-and-actions">
+            <div class="note-text">
+                <p style="color: red;"><strong>Note:</strong> Upload course data in <strong>.csv</strong> format.</p>
+                <p style="color: red;">(Download the sample .csv file and add data in the specified structure to avoid errors)</p>
+            </div>
+            <div class="add-data">
+                <a class="control-btn" href="#">Add new course</a>
+                <label for="uploadFile" class="control-btn" style="cursor: pointer;">Upload File</label>
+                <input type="file" id="uploadFile" style="display: none;" accept=".csv" />
+                <a href="#" class="control-btn">Download Sample CSV</a>
+            </div>
+        </div>
+
+        <div class="controls">
+            <form onsubmit="return false;">
+                <label for="search">Search Course:</label>
+                <input type="text" id="search" placeholder="Enter Course name or Code" />
+
+                <label for="department">Department:</label>
+                <select id="department">
+                    <option value="all">All Departments</option>
+                    <option value="CSE">Computer Science and Engineering (CSE)</option>
+                    <option value="ECE">Electronics and Communication Engineering (ECE)</option>
+                    <option value="EEE">Electrical and Electronics Engineering (EEE)</option>
+                    <option value="MECH">Mechanical Engineering (MECH)</option>
+                    <option value="CIVIL">Civil Engineering (CIVIL)</option>
+                </select>
+
+                <label for="year">Year:</label>
+                <select id="year">
+                    <option value="all">All Years</option>
+                    <option value="1">1st Year</option>
+                    <option value="2">2nd Year</option>
+                    <option value="3">3rd Year</option>
+                    <option value="4">4th Year</option>
+                </select>
+
+                <label for="semester">Semester:</label>
+                <select id="semester">
+                    <option value="all">All</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                </select>
+            </form>
+        </div>
+
+        <div class="actions">
+            <button type="button" id="resetCourseFilters">
+                <img src="https://img.icons8.com/?size=100&id=12494&format=png&color=ffffff" alt="Reset" />Reset
+            </button>
+            <button type="button" id="printCourseBtn">
+                <img src="https://img.icons8.com/?size=100&id=85372&format=png&color=ffffff" alt="Print" />Print
+            </button>
+            <button type="button" id="downloadCourseBtn">
+                <img src="https://img.icons8.com/?size=100&id=83159&format=png&color=ffffff" alt="Download" />Download Data
+            </button>
+        </div>
+
+        <div class="table">
+            <table id="course-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Course Code</th>
+                        <th>Course Name</th>
+                        <th>Department</th>
+                        <th>Year</th>
+                        <th>Semester</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="course-list">
+                    {% for course in courses %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ course.course_code }}</td>
+                        <td>{{ course.course_name }}</td>
+                        <td>{{ course.department }}</td>
+                        <td>{{ course.year }}</td>
+                        <td>{{ course.semester }}</td>
+                        <td>
+                            <a href="#" class="course-action-link">View</a>
+                            <a href="#" class="course-action-link">Edit</a>
+                            <a href="#" class="course-action-link">Delete</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7">No courses found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
+
+    <script src="{% static 'js/scripts.js' %}"></script>
 {% endblock %}

@@ -85,7 +85,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'exam_db',
         'USER': 'root',
-        'PASSWORD': '2406',
+        'PASSWORD': 'Nanda@2604',
         'HOST': 'localhost',  # or '127.0.0.1'
         'PORT': '3306',
     }
@@ -128,6 +128,21 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# Authentication settings
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'admin-dashboard'  # Change this based on user role
+LOGOUT_REDIRECT_URL = 'login'
+
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # For development
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # For production
+EMAIL_HOST = 'smtp.gmail.com'  # Update this with your SMTP server
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = ''  # Add your email here
+EMAIL_HOST_PASSWORD = ''  # Add your app password here
+DEFAULT_FROM_EMAIL = ''  # Add your email here
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -136,6 +151,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'accounts.User'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Or your SMTP server
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = '200080078.aids@gmail.com'
+EMAIL_HOST_PASSWORD = 'hogtjbmxqtvfiqsv'
+DEFAULT_FROM_EMAIL = '200080078.aids@gmail.com'
 
 STATIC_URL = '/static/'
 
