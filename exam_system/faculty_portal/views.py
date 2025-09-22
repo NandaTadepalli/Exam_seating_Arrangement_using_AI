@@ -1,38 +1,62 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import InvigilationDuty, Attendance, MalpracticeReport
+from .models import Faculty, FacultyExamAssignment, Attendance, MalpracticeReport, Exam, Room
 from accounts.models import User
 
 
 @login_required
 def dashboard(request):
-    faculty = request.user
-    duties = InvigilationDuty.objects.filter(
-        faculty=faculty).select_related('exam')
-    return render(request, 'faculty_portal/faculty.html', {'faculty': faculty, 'duties': duties})
+    faculty = get_object_or_404(Faculty, user=request.user)
+    assignments = FacultyExamAssignment.objects.filter(
+        faculty=faculty).select_related('exam', 'room')
+    return render(request, 'faculty_portal/faculty.html', {
+        'faculty': faculty,
+        'assignments': assignments
+    })
 
 
 @login_required
-def attendance(request, duty_id):
-    duty = get_object_or_404(
-        InvigilationDuty, id=duty_id, faculty=request.user)
+def attendance(request, assignment_id):
+    faculty = get_object_or_404(Faculty, user=request.user)
+    assignment = get_object_or_404(
+        FacultyExamAssignment, id=assignment_id, faculty=faculty)
+    
     attendance_records = Attendance.objects.filter(
-        invigilation=duty).select_related('student')
+        exam=assignment.exam,
+        room=assignment.room
+    ).select_related('student')
+    
     if request.method == 'POST':
-        for record in attendance_records:
-            present = request.POST.get(f'present_{record.id}') == 'on'
-            record.present = present
-            record.save()
-            # Malpractice handling
-            if request.POST.get(f'mal_type_{record.id}'):
-                MalpracticeReport.objects.create(
-                    attendance=record,
-                    malpractice_type=request.POST.get(f'mal_type_{record.id}'),
-                    description=request.POST.get(f'mal_desc_{record.id}', ''),
-                    evidence=request.FILES.get(f'mal_evidence_{record.id}')
+        for record_id in request.POST.getlist('student_ids'):
+            status = request.POST.get(f'status_{record_id}')
+            if status in ['PRESENT', 'ABSENT']:
+                # Update or create attendance record
+                attendance, created = Attendance.objects.update_or_create(
+                    exam=assignment.exam,
+                    student_id=record_id,
+                    room=assignment.room,
+                    defaults={
+                        'marked_by': faculty,
+                        'status': status
+                    }
                 )
+                
+                # Handle malpractice report if any
+                malpractice_desc = request.POST.get(f'malpractice_{record_id}')
+                if malpractice_desc:
+                    MalpracticeReport.objects.create(
+                        exam=assignment.exam,
+                        student_id=record_id,
+                        faculty=faculty,
+                        description=malpractice_desc
+                    )
+                    
         return redirect('faculty-dashboard')
-    return render(request, 'faculty_portal/attendance.html', {'duty': duty, 'attendance': attendance_records})
+        
+    return render(request, 'faculty_portal/attendance.html', {
+        'assignment': assignment,
+        'attendance_records': attendance_records
+    })
 
 
 @login_required

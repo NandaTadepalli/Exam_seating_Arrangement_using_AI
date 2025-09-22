@@ -1,9 +1,212 @@
-{% extends "admin_portal/base_admin.html" %}
+{% extends 'admin_portal/base_admin.html' %}
 {% load static %}
+
 {% block main_content %}
-    <div class="pages-main">
-        <h1 class="pages-main-head">Notifications</h1>
-        <p>This page is under construction. Please check back later.</p>
-        <p>For now, you can navigate to other sections using the sidebar.</p>
+<div class="pages-main">
+    <h1 class="pages-main-head">Exam Notifications</h1>
+
+    <!-- Upcoming Exams -->
+    <div class="notification-card">
+        <div class="card-header">
+            <h2>Upcoming Exams</h2>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table" id="upcoming-exams-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Exam Name</th>
+                            <th>Course(s)</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Year</th>
+                            <th>Semester</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for exam in upcoming_exams %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ exam.exam_name }}</td>
+                            <td>
+                                {% for exam_course in exam.examcourse_set.all %}
+                                    {{ exam_course.course.course_name }}{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>{{ exam.exam_date|date:"d M Y" }}</td>
+                            <td>{{ exam.start_time|time:"H:i" }} - {{ exam.end_time|time:"H:i" }}</td>
+                            <td>{{ exam.year }}</td>
+                            <td>{{ exam.semester }}</td>
+                            <td>
+                                <button class="btn btn-primary send-notification" data-exam-id="{{ exam.id }}"
+                                        {% if exam.last_notification.status == 'SENT' %}disabled{% endif %}>
+                                    {% if exam.last_notification.status == 'SENT' %}
+                                        Sent
+                                    {% else %}
+                                        Send
+                                    {% endif %}
+                                </button>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="8" class="text-center">No upcoming exams found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
+
+    <!-- Notification History -->
+    <div class="notification-card mt-4">
+        <div class="card-header">
+            <h2>Notification History</h2>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table" id="notification-history-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Exam</th>
+                            <th>Course(s)</th>
+                            <th>Sent At</th>
+                            <th>Status</th>
+                            <th>Recipients</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for notification in notification_history %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ notification.exam.exam_name }}</td>
+                            <td>
+                                {% for exam_course in notification.exam.examcourse_set.all %}
+                                    {{ exam_course.course.course_name }}{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>{{ notification.sent_at|date:"d M Y H:i" }}</td>
+                            <td>
+                                <span class="badge {% if notification.status == 'SENT' %}badge-success{% elif notification.status == 'FAILED' %}badge-danger{% else %}badge-warning{% endif %}">
+                                    {{ notification.status }}
+                                </span>
+                            </td>
+                            <td>{{ notification.recipients_count }}</td>
+                            <td>
+                                <button class="btn btn-secondary resend-notification" data-notification-id="{{ notification.id }}"
+                                        {% if notification.status == 'PENDING' %}disabled{% endif %}>
+                                    Resend
+                                </button>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center">No notification history found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Send notification handler
+    document.querySelectorAll('.send-notification').forEach(button => {
+        button.addEventListener('click', function() {
+            const examId = this.dataset.examId;
+            if (confirm('Are you sure you want to send notifications for this exam?')) {
+                button.disabled = true;
+                button.textContent = 'Sending...';
+                
+                fetch(`/admin-portal/send-exam-notification/${examId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Notifications sent successfully!');
+                        window.location.reload();
+                    } else {
+                        alert('Error sending notifications: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    alert('Error sending notifications: ' + error);
+                })
+                .finally(() => {
+                    button.disabled = false;
+                    button.textContent = 'Send';
+                });
+            }
+        });
+    });
+
+    // Resend notification handler
+    document.querySelectorAll('.resend-notification').forEach(button => {
+        button.addEventListener('click', function() {
+            const notificationId = this.dataset.notificationId;
+            if (confirm('Are you sure you want to resend these notifications?')) {
+                button.disabled = true;
+                button.textContent = 'Resending...';
+                
+                fetch(`/admin-portal/resend-notification/${notificationId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Notifications resent successfully!');
+                        window.location.reload();
+                    } else {
+                        alert('Error resending notifications: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    alert('Error resending notifications: ' + error);
+                })
+                .finally(() => {
+                    button.disabled = false;
+                    button.textContent = 'Resend';
+                });
+            }
+        });
+    });
+
+    // Helper function to get CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+});
+</script>
+{% endblock %}
 {% endblock %}

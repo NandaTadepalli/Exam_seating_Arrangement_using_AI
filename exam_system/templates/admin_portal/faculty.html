@@ -26,37 +26,11 @@
                 <label for="department">Department:</label>
                 <select id="department">
                     <option value="all">All Departments</option>
-                    <option value="computer science and engineering">Computer Science and Engineering (CSE)</option>
-                    <option value="artificial intelligence and data science">Artificial Intelligence and Data
-                        Science
-                        (AI&DS)</option>
-                    <option value="information technology">Information Technology (IT)</option>
-                    <option value="electronics and communication engineering">Electronics and Communication
-                        Engineering
-                        (ECE)</option>
-                    <option value="electrical and electronics engineering">Electrical and Electronics Engineering
-                        (EEE)
-                    </option>
-                    <option value="mechanical engineering">Mechanical Engineering (ME)</option>
-                    <option value="civil engineering">Civil Engineering (CE)</option>
-                    <option value="chemical engineering">Chemical Engineering</option>
-                    <option value="biomedical engineering">Biomedical Engineering</option>
-                    <option value="aeronautical engineering">Aeronautical Engineering</option>
-                    <option value="automobile engineering">Automobile Engineering</option>
-                    <option value="robotics and automation">Robotics and Automation</option>
-                    <option value="mechatronics">Mechatronics</option>
-                    <option value="data science">Data Science</option>
-                    <option value="cyber security">Cyber Security</option>
-                    <option value="agricultural engineering">Agricultural Engineering</option>
-                    <option value="pharmaceutical sciences">Pharmaceutical Sciences</option>
-                    <option value="business administration">Business Administration (MBA)</option>
-                    <option value="commerce">Commerce (B.Com)</option>
-                    <option value="mathematics">Mathematics</option>
-                    <option value="physics">Physics</option>
-                    <option value="chemistry">Chemistry</option>
-                    <option value="english">English</option>
-                    <option value="economics">Economics</option>
-                    <option value="psychology">Psychology</option>
+                    <option value="CSE">Computer Science and Engineering (CSE)</option>
+                    <option value="ECE">Electronics and Communication Engineering (ECE)</option>
+                    <option value="EEE">Electrical and Electronics Engineering (EEE)</option>
+                    <option value="MECH">Mechanical Engineering (MECH)</option>
+                    <option value="CIVIL">Civil Engineering (CIVIL)</option>
                 </select>
             </form>
         </div>
@@ -93,15 +67,15 @@
                     {% for faculty in faculties %}
                     <tr>
                         <td>{{ forloop.counter }}</td>
-                        <td>{{ faculty.faculty_id }}</td>
-                        <td>{{ faculty.name }}</td>
+                        <td>{{ faculty.id }}</td>
+                        <td>{{ faculty.user.first_name }} {{ faculty.user.last_name }}</td>
                         <td>{{ faculty.department }}</td>
-                        <td>{{ faculty.mobile }}</td>
-                        <td>{{ faculty.email }}</td>
+                        <td>{{ faculty.phone }}</td>
+                        <td>{{ faculty.user.email }}</td>
                         <td>
-                            <a href="{% url 'faculty_view' faculty.faculty_id %}" class="faculty-action-link">View</a>
-                            <a href="{% url 'faculty_edit' faculty.faculty_id %}" class="faculty-action-link">Edit</a>
-                            <a href="{% url 'faculty_delete' faculty.faculty_id %}" class="faculty-action-link">Delete</a>
+                            <a href="{% url 'faculty_view' faculty.id %}" class="faculty-action-link">View</a>
+                            <a href="{% url 'faculty_edit' faculty.id %}" class="faculty-action-link">Edit</a>
+                            <a href="{% url 'faculty_delete' faculty.id %}" class="faculty-action-link">Delete</a>
                         </td>
                     </tr>
                     {% empty %}

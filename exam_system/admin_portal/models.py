@@ -18,6 +18,27 @@ def generate_error_csv(errors):
         writer.writerow(err)
     return output.getvalue()
 from django.db import models
+from django.utils import timezone
+from faculty_portal.models import Exam
+
+class ExamNotification(models.Model):
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE, related_name='admin_notifications')
+    sent_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20, choices=[
+        ('PENDING', 'Pending'),
+        ('SENT', 'Sent'),
+        ('FAILED', 'Failed')
+    ])
+    recipients_count = models.IntegerField(default=0)
+    error_message = models.TextField(blank=True, null=True)
+
+    class Meta:
+        ordering = ['-sent_at']
+        verbose_name = 'Admin Exam Notification'
+        verbose_name_plural = 'Admin Exam Notifications'
+
+    def __str__(self):
+        return f"Notification for {self.exam.exam_name} - {self.get_status_display()}"
 
 # --- Faculty Model ---
 class Faculty(models.Model):
