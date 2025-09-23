@@ -67,20 +67,20 @@
                 {% for faculty in faculties %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
-                    <td>{{ faculty.id }}</td>
+                    <td><a href="{% url 'faculty_view' faculty.emp_id %}" class="faculty-action-link">{{faculty.emp_id}}</a></td>
                     <td>{{ faculty.user.first_name }} {{ faculty.user.last_name }}</td>
                     <td>{{ faculty.department }}</td>
                     <td>{{ faculty.phone }}</td>
                     <td>{{ faculty.user.email }}</td>
                     <td>
-                        <a href="{% url 'faculty_view' faculty.id %}" class="faculty-action-link">View</a>
-                        <a href="{% url 'faculty_edit' faculty.id %}" class="faculty-action-link">Edit</a>
-                        <a href="{% url 'faculty_delete' faculty.id %}" class="faculty-action-link">Delete</a>
+                        <a href="{% url 'faculty_view' faculty.emp_id %}" class="faculty-action-link">View</a>
+                        <a href="{% url 'faculty_edit' faculty.emp_id %}" class="faculty-action-link">Edit</a>
+                        <a href="{% url 'faculty_delete' faculty.emp_id %}" class="faculty-action-link">Delete</a>
                     </td>
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="7">No faculty found.</td>
+                    <td colspan="7">No courses found.</td>
                 </tr>
                 {% endfor %}
             </tbody>

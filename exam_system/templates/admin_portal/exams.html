@@ -3,7 +3,50 @@
 {% block main_content %}
     <div class="pages-main">
         <h1 class="pages-main-head">Exam Management</h1>
-        <p>This page is under construction. Please check back later.</p>
-        <p>For now, you can navigate to other sections using the sidebar.</p>
+        <h2 class="pages-main-subhead">Create Exam Slot</h2>
+        <div class="note-text">
+            <p style="color: red;">(<strong>Note:</strong> Please provide appropriate data for all fields.)</p>
+        </div>
+        <div class="controls-1">
+            <form action="https://httpbin.org/" method="post" onsubmit="return false;">
+                <label for="examname">Exam Name:</label>
+                <input type="text" id="examname" name="examname" placeholder="Enter exam Name" required>
+                <label for="examtype">Exam Type:</label>
+                <select name="examtype" id="examtype">
+                    <option value="">Select Exam Type</option>
+                    <option value="Theoretical">Theoretical</option>
+                    <option value="Practical">Practical</option>
+                </select>
+                <label for="exam_date">Exam Date:</label>
+                <input type="date" id="exam_date" name="exam_date" required>
+                <label for="starttime">start Time:</label>
+                <input type="time" id="starttime" name="starttime" required>
+                <label for="endtime">End Time:</label>
+                <input type="time" id="endtime" name="endtime" required>
+                <label for="year">Study Year:</label>
+                <select id="year" name="year" required>
+                    <option value="">Select Year</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+                <label for="semester">Semester:</label>
+                <select id="semester" name="semester" required>
+                    <option value="">Select Semester</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                </select>
+            </form>
+            <div class="next_button">
+                <button class="btn-nxt" type="button" id="fetchcourses">Fetch Courses</button>
+            </div>
+        </div>
     </div>
 {% endblock %}

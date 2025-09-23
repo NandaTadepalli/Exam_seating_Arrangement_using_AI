@@ -3,7 +3,7 @@
 {% block main_content %}
     <div class="pages-main">
         <div class="view-page">
-            <h1 class="pages-main-head">{{ faculty.faculty_id }} - {{ faculty.name }}</h1>
+            <h1 class="pages-main-head">{{ faculty.emp_id }} - {{ user.first_name }} {{ user.last_name }}</h1>
             <p style="color:red;"><strong>Note:</strong> This page displays the details of the selected faculty.</p>
             <h2>Faculty Details</h2>
             <div class="view-actions">
@@ -15,11 +15,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td>Faculty ID</td><td>{{ faculty.faculty_id }}</td></tr>
-                        <tr><td>Name</td><td>{{ faculty.name }}</td></tr>
-                        <tr><td>Department</td><td>{{ faculty.department }}</td></tr>
-                        <tr><td>Mobile</td><td>{{ faculty.mobile }}</td></tr>
+                        <tr><td>Employee ID</td><td>{{ faculty.emp_id }}</td></tr>
+                        <tr><td>Name</td><td>{{ user.first_name }} {{ user.last_name }}</td></tr>
+                        <tr><td>Designation</td><td>{{ faculty.designation }}</td></tr>
+                        <tr><td>Mobile</td><td>{{ faculty.phone }}</td></tr>
                         <tr><td>Email</td><td>{{ faculty.email }}</td></tr>
+                        <tr><td>Specialization</td><td>{{ faculty.specialization }}</td></tr>
+                        <tr><td>Qualification</td><td>{{ faculty.qualification }}</td></tr>
+                        <tr><td>Emergency Contact</td><td>{{ faculty.emergency_contact }}</td></tr>
+                        <tr><td>Date of Joining</td><td>{{ faculty.date_joined }}</td></tr>
                     </tbody>
                 </table>
             </div>

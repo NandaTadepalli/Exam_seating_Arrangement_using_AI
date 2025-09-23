@@ -242,6 +242,13 @@ button img {
   font-weight: 600;
 }
 
+.pages-main-subhead {
+  font-size: 1.8rem;
+  color: #10B981;
+  margin-top: 10px;
+  font-weight: 400;
+}
+
 .controls {
   position: sticky;
   top: 0;
@@ -252,6 +259,15 @@ button img {
   flex-shrink: 0;
 }
 
+.controls-1 {
+  position: sticky;
+  top: 0;
+  background-color: #ffffff;
+  padding: 10px 0;
+  z-index: 10;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
+}
 
 .controls form {
   display: flex;
@@ -261,29 +277,43 @@ button img {
   margin-top: 30px;
 }
 
+.controls-1 form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+  margin-top: 30px;
+}
+
 .controls form input,
 .controls form select,
-.controls form button {
+.controls form button,
+.controls-1 form input,
+.controls-1 form select,
+.controls-1 form button {
   padding: 8px 10px;
   font-size: 15px;
   border-radius: 6px;
   border: 1px solid #cbd5e1;
 }
 
-.controls form button {
+.controls form button,
+.controls-1 button {
   background: #1E3A5F;
   color: white;
   cursor: pointer;
   border: none;
 }
 
-.controls label {
+.controls label,
+.controls-1 label {
   font-size: 1rem;
   color: #1E3A5F;
   font-weight: 500;
 }
 
-.controls button:hover {
+.controls button:hover 
+.controls-1 button:hover {
   background-color: #2f517d;
 }
 
@@ -638,3 +668,27 @@ table tbody tr td li {
   border: 2px solid #1E3A5F;
   border-radius: 50%;
 } */
+
+.next_button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.btn-nxt {
+  background: linear-gradient(90deg, #1E3A5F 60%, #3c5f88 100%);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 2px 8px rgba(30,58,95,0.10);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.btn-nxt:hover {
+  background: linear-gradient(90deg, #3c5f88 0%, #1E3A5F 100%);
+}
