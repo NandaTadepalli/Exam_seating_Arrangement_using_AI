@@ -8,10 +8,10 @@ class RoleBasedLoginView(LoginView):
 
     def get_success_url(self):
         user = self.request.user
-        if user.role == 'admin':
+        if user.role == 'ADMIN':
             return reverse_lazy('admin-dashboard')
-        elif user.role == 'faculty':
+        elif user.role == 'FACULTY':
             return reverse_lazy('faculty-dashboard')
-        elif user.role == 'student':
+        elif user.role == 'STUDENT':
             return reverse_lazy('student-dashboard')
         return reverse_lazy('login')

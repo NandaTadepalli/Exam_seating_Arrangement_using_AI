@@ -1,3 +1,10 @@
+from faculty_portal.models import (
+    Faculty, Room, Exam, ExamCourse, ExamRoom,
+    SeatAllocation, FacultyExamAssignment, Attendance, MalpracticeReport
+)
+from student_portal.models import Student, Course, StudentRegCourse
+from accounts.models import User, Notification, Log
+from django.contrib.auth.hashers import make_password
 import os
 import django
 import random
@@ -7,13 +14,6 @@ from django.utils import timezone
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'exam_system.settings')
 django.setup()
 
-from django.contrib.auth.hashers import make_password
-from accounts.models import User, Notification, Log
-from student_portal.models import Student, Course, StudentRegCourse
-from faculty_portal.models import (
-    Faculty, Room, Exam, ExamCourse, ExamRoom,
-    SeatAllocation, FacultyExamAssignment, Attendance, MalpracticeReport
-)
 
 def create_users():
     print("Creating users...")
@@ -57,11 +57,12 @@ def create_users():
 
     return admin, students, faculty
 
+
 def create_students(student_users):
     print("Creating student profiles...")
     departments = ['CSE', 'ECE', 'EEE', 'MECH', 'CIVIL']
     students = []
-    
+
     for user in student_users:
         student = Student.objects.create(
             user=user,
@@ -75,12 +76,13 @@ def create_students(student_users):
         students.append(student)
     return students
 
+
 def create_faculty(faculty_users):
     print("Creating faculty profiles...")
     departments = ['CSE', 'ECE', 'EEE', 'MECH', 'CIVIL']
     designations = ['Professor', 'Associate Professor', 'Assistant Professor']
     faculty_list = []
-    
+
     for user in faculty_users:
         faculty = Faculty.objects.create(
             user=user,
@@ -92,11 +94,12 @@ def create_faculty(faculty_users):
         faculty_list.append(faculty)
     return faculty_list
 
+
 def create_rooms():
     print("Creating rooms...")
     blocks = ['A', 'B', 'C']
     rooms = []
-    
+
     for block in blocks:
         for i in range(1, 5):  # 4 rooms per block
             room = Room.objects.create(
@@ -108,17 +111,18 @@ def create_rooms():
             rooms.append(room)
     return rooms
 
+
 def create_courses():
     print("Creating courses...")
     departments = ['CSE', 'ECE', 'EEE', 'MECH', 'CIVIL']
     courses = []
-    
+
     course_names = [
         'Programming', 'Database Systems', 'Networks', 'Operating Systems',
         'Digital Logic', 'Electronics', 'Circuits', 'Mechanics',
         'Structures', 'Materials', 'Thermodynamics', 'Control Systems'
     ]
-    
+
     for i, name in enumerate(course_names):
         dept = departments[i % len(departments)]
         year = (i % 4) + 1
@@ -130,10 +134,11 @@ def create_courses():
             semester=random.randint(1, 2)
         )
 
+
 def create_student_registrations(students):
     print("Creating student course registrations...")
     courses = Course.objects.all()
-    
+
     for student in students:
         # Register each student for 5 random courses
         student_courses = random.sample(list(courses), 5)
@@ -143,21 +148,23 @@ def create_student_registrations(students):
                 course=course
             )
 
+
 def create_exam():
     print("Creating sample exams...")
     courses = list(Course.objects.all())
     rooms = list(Room.objects.all())
     faculty_list = list(Faculty.objects.all())
     admin_user = User.objects.get(username='admin')
-    
+
     exam_types = ['THEORY', 'PRACTICAL']
-    exam_names = ['Mid Semester Examination', 'Final Examination', 'Internal Assessment']
-    
+    exam_names = ['Mid Semester Examination',
+                  'Final Examination', 'Internal Assessment']
+
     # Create multiple exams with different dates
     for i in range(5):  # Create 5 different exams
         days_ahead = i * 3 + 1  # Spread exams over next few days
         exam_name = f"{random.choice(exam_names)} - {random.choice(courses).department}"
-        
+
         exam = Exam.objects.create(
             exam_name=exam_name,
             exam_type=random.choice(exam_types),
@@ -168,14 +175,14 @@ def create_exam():
             end_time=random.choice(['12:00:00', '17:00:00']),
             created_by=admin_user
         )
-        
+
         # Assign 2-3 courses to each exam
         for course in random.sample(courses, random.randint(2, 3)):
             ExamCourse.objects.create(
                 exam=exam,
                 course=course
             )
-        
+
         # Assign 2-3 rooms to each exam
         assigned_rooms = random.sample(rooms, random.randint(2, 3))
         for room in assigned_rooms:
@@ -184,7 +191,7 @@ def create_exam():
                 room=room,
                 allocated_capacity=room.rows_count * room.columns_count
             )
-            
+
             # Assign faculty to each room
             if faculty_list:  # If we have available faculty
                 assigned_faculty = random.choice(faculty_list)
@@ -194,10 +201,11 @@ def create_exam():
                     room=room
                 )
 
+
 def create_notifications():
     print("Creating sample notifications...")
     users = User.objects.all()
-    
+
     for user in random.sample(list(users), 5):
         Notification.objects.create(
             user=user,
@@ -206,17 +214,19 @@ def create_notifications():
             status='UNREAD'
         )
 
+
 def create_logs():
     print("Creating sample logs...")
     users = User.objects.all()
     actions = ['LOGIN', 'LOGOUT', 'CREATE_EXAM', 'UPDATE_PROFILE']
-    
+
     for _ in range(10):
         Log.objects.create(
             user=random.choice(users),
             action=random.choice(actions),
             description='Sample log entry'
         )
+
 
 def populate_db():
     # Clear existing data
@@ -227,7 +237,7 @@ def populate_db():
     Faculty.objects.all().delete()
     Student.objects.all().delete()
     User.objects.all().delete()
-    
+
     # Create data
     admin, student_users, faculty_users = create_users()
     students = create_students(student_users)
@@ -238,11 +248,12 @@ def populate_db():
     create_exam()
     create_notifications()
     create_logs()
-    
+
     print("\nDatabase populated successfully!")
     print(f"Admin credentials: username='admin', password='admin123'")
     print(f"Student credentials: username='STU001', password='student123'")
     print(f"Faculty credentials: username='FAC001', password='faculty123'")
+
 
 if __name__ == '__main__':
     populate_db()

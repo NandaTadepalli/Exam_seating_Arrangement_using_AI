@@ -1,92 +1,92 @@
 {% extends "admin_portal/base_admin.html" %}
 {% load static %}
 {% block main_content %}
-    <div class="pages-main">
-        <h1 class="pages-main-head">Faculty Management</h1>
-        <div class="note-and-actions">
-            <div class="note-text">
-                <p style="color: red;"><strong>Note:</strong> Upload faculty data in <strong>.csv</strong> format.
-                </p>
-                <p style="color: red;">(Download the sample .csv file and add data in the specified structure to
-                    avoid errors)</p>
-            </div>
-            <div class="add-data">
-                <a class="control-btn" href="#">Add new faculty</a>
-                <label for="uploadFile" class="control-btn" style="cursor: pointer;">Upload File</label>
-                <input type="file" id="uploadFile" style="display: none;" accept=".csv" />
-                <a href="{% static 'csv/facultydata.csv' %}" download class="control-btn">Download Sample CSV</a>
-            </div>
+<div class="pages-main">
+    <h1 class="pages-main-head">Faculty Management</h1>
+    <div class="note-and-actions">
+        <div class="note-text">
+            <p style="color: red;"><strong>Note:</strong> Upload faculty data in <strong>.csv</strong> format.
+            </p>
+            <p style="color: red;">(Download the sample .csv file and add data in the specified structure to
+                avoid errors)</p>
         </div>
-
-        <div class="controls">
-            <form onsubmit="return false;">
-                <label for="search">Search Faculty:</label>
-                <input type="text" id="search" placeholder="Enter Faculty name or ID" />
-
-                <label for="department">Department:</label>
-                <select id="department">
-                    <option value="all">All Departments</option>
-                    <option value="CSE">Computer Science and Engineering (CSE)</option>
-                    <option value="ECE">Electronics and Communication Engineering (ECE)</option>
-                    <option value="EEE">Electrical and Electronics Engineering (EEE)</option>
-                    <option value="MECH">Mechanical Engineering (MECH)</option>
-                    <option value="CIVIL">Civil Engineering (CIVIL)</option>
-                </select>
-            </form>
-        </div>
-
-        <div class="actions">
-            <button type="button" id="resetFacultyFilters">
-                <img src="https://img.icons8.com/?size=100&id=12494&format=png&color=ffffff" alt="Reset" />
-                Reset
-            </button>
-            <button type="button" id="printFacultyBtn">
-                <img src="https://img.icons8.com/?size=100&id=85372&format=png&color=ffffff" alt="Print" />
-                Print
-            </button>
-            <button type="button" id="downloadFacultyBtn">
-                <img src="https://img.icons8.com/?size=100&id=83159&format=png&color=ffffff" alt="Download" />
-                Download Data
-            </button>
-        </div>
-
-        <div class="table">
-            <table id="faculty-table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Faculty ID</th>
-                        <th>Name</th>
-                        <th>Department</th>
-                        <th>Mobile</th>
-                        <th>Email</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="faculty-list">
-                    {% for faculty in faculties %}
-                    <tr>
-                        <td>{{ forloop.counter }}</td>
-                        <td>{{ faculty.id }}</td>
-                        <td>{{ faculty.user.first_name }} {{ faculty.user.last_name }}</td>
-                        <td>{{ faculty.department }}</td>
-                        <td>{{ faculty.phone }}</td>
-                        <td>{{ faculty.user.email }}</td>
-                        <td>
-                            <a href="{% url 'faculty_view' faculty.id %}" class="faculty-action-link">View</a>
-                            <a href="{% url 'faculty_edit' faculty.id %}" class="faculty-action-link">Edit</a>
-                            <a href="{% url 'faculty_delete' faculty.id %}" class="faculty-action-link">Delete</a>
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="7">No faculty found.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <div class="add-data">
+            <a class="control-btn" href="#">Add new faculty</a>
+            <label for="uploadFile" class="control-btn" style="cursor: pointer;">Upload File</label>
+            <input type="file" id="uploadFile" style="display: none;" accept=".csv" />
+            <a href="{% static 'csv/facultydata.csv' %}" download class="control-btn">Download Sample CSV</a>
         </div>
     </div>
 
-    <script src="{% static 'js/scripts.js' %}"></script>
+    <div class="controls">
+        <form onsubmit="return false;">
+            <label for="search">Search Faculty:</label>
+            <input type="text" id="search" placeholder="Enter Faculty name or ID" />
+
+            <label for="department">Department:</label>
+            <select id="department">
+                <option value="all">All Departments</option>
+                <option value="CSE">Computer Science and Engineering (CSE)</option>
+                <option value="ECE">Electronics and Communication Engineering (ECE)</option>
+                <option value="EEE">Electrical and Electronics Engineering (EEE)</option>
+                <option value="MECH">Mechanical Engineering (MECH)</option>
+                <option value="CIVIL">Civil Engineering (CIVIL)</option>
+            </select>
+        </form>
+    </div>
+
+    <div class="actions">
+        <button type="button" id="resetFacultyFilters">
+            <img src="https://img.icons8.com/?size=100&id=12494&format=png&color=ffffff" alt="Reset" />
+            Reset
+        </button>
+        <button type="button" id="printFacultyBtn">
+            <img src="https://img.icons8.com/?size=100&id=85372&format=png&color=ffffff" alt="Print" />
+            Print
+        </button>
+        <button type="button" id="downloadFacultyBtn">
+            <img src="https://img.icons8.com/?size=100&id=83159&format=png&color=ffffff" alt="Download" />
+            Download Data
+        </button>
+    </div>
+
+    <div class="table">
+        <table id="faculty-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Faculty ID</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="faculty-list">
+                {% for faculty in faculties %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ faculty.id }}</td>
+                    <td>{{ faculty.user.first_name }} {{ faculty.user.last_name }}</td>
+                    <td>{{ faculty.department }}</td>
+                    <td>{{ faculty.phone }}</td>
+                    <td>{{ faculty.user.email }}</td>
+                    <td>
+                        <a href="{% url 'faculty_view' faculty.id %}" class="faculty-action-link">View</a>
+                        <a href="{% url 'faculty_edit' faculty.id %}" class="faculty-action-link">Edit</a>
+                        <a href="{% url 'faculty_delete' faculty.id %}" class="faculty-action-link">Delete</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7">No faculty found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="{% static 'js/scripts.js' %}"></script>
 {% endblock %}

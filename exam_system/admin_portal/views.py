@@ -12,9 +12,11 @@ from student_portal.models import Student, Course
 from faculty_portal.models import Faculty, Exam
 from .models import Room, ExamNotification
 from .utils.email_utils import send_exam_notification
+from .decorators import admin_required
 
 
 @login_required
+@admin_required
 def room_allocation(request):
     return render(request, 'admin_portal/roomalloc.html')
 
@@ -53,6 +55,8 @@ EXPECTED_HEADERS = {
 
 
 @csrf_exempt
+@login_required
+@admin_required
 def upload_csv(request):
     if request.method == 'POST':
         try:
@@ -225,23 +229,31 @@ def upload_csv(request):
     return JsonResponse({'status': 'error', 'message': 'Invalid request method.'}, status=405)
 
 
+@login_required
+@admin_required
 def student_list(request):
     students = Student.objects.all()
     return render(request, 'admin_portal/student.html', {'students': students})
 
 
+@login_required
+@admin_required
 def student_view(request, pk):
     # Using id instead of student_id
     student = get_object_or_404(Student, id=pk)
     return render(request, 'admin_portal/student_detail.html', {'student': student})
 
 
+@login_required
+@admin_required
 def student_edit(request, pk):
     student = get_object_or_404(Student, student_id=pk)
     # Add form handling logic here if needed
     return render(request, 'admin_portal/student_edit.html', {'student': student})
 
 
+@login_required
+@admin_required
 def student_delete(request, pk):
     student = get_object_or_404(Student, student_id=pk)
     # Add delete logic here if needed
@@ -253,31 +265,45 @@ def student_list(request):
     return render(request, 'admin_portal/student.html', {'students': students})
 
 
+@login_required
+@admin_required
 def faculty_list(request):
     faculties = Faculty.objects.select_related('user').all()
     return render(request, 'admin_portal/faculty.html', {'faculties': faculties})
 
 
+@login_required
+@admin_required
 def faculty_view(request, pk):
     faculty = Faculty.objects.get(faculty_id=pk)
     return render(request, 'admin_portal/faculty_detail.html', {'faculty': faculty})
 
 
+@login_required
+@admin_required
 def faculty_edit(request, pk):
     faculty = Faculty.objects.get(faculty_id=pk)
     # Add form handling logic here if needed
     return render(request, 'admin_portal/faculty_edit.html', {'faculty': faculty})
 
 
+@login_required
+@admin_required
 def faculty_delete(request, pk):
     faculty = Faculty.objects.get(faculty_id=pk)
     # Add delete logic here if needed
     return render(request, 'admin_portal/faculty_delete.html', {'faculty': faculty})
 
 
+from .decorators import admin_required
+
 @login_required
+@admin_required
 def dashboard(request):
-    return render(request, 'admin_portal/dashboard.html')
+    return render(request, 'admin_portal/dashboard.html', {
+        'page_title': 'Admin Dashboard',
+        'user': request.user
+    })
 
 
 @login_required
@@ -291,12 +317,14 @@ def faculty(request):
 
 
 @login_required
+@admin_required
 def courses(request):
     courses = Course.objects.all()
     return render(request, 'admin_portal/courses.html', {'courses': courses})
 
 
 @login_required
+@admin_required
 def rooms(request):
     from .models import Room
     rooms = Room.objects.all()
@@ -304,11 +332,13 @@ def rooms(request):
 
 
 @login_required
+@admin_required
 def exams(request):
     return render(request, 'admin_portal/exams.html')
 
 
 @login_required
+@admin_required
 def notifications(request):
     # Get upcoming exams (exams that haven't happened yet)
     upcoming_exams = Exam.objects.filter(
@@ -339,6 +369,7 @@ def notifications(request):
 
 
 @login_required
+@admin_required
 @require_POST
 def send_exam_notification_view(request, exam_id):
     try:
@@ -381,6 +412,7 @@ def send_exam_notification_view(request, exam_id):
 
 
 @login_required
+@admin_required
 @require_POST
 def resend_notification_view(request, notification_id):
     try:
@@ -422,20 +454,24 @@ def resend_notification_view(request, notification_id):
 
 
 @login_required
+@admin_required
 def attendance(request):
     return render(request, 'admin_portal/attendence.html')
 
 
 @login_required
+@admin_required
 def report(request):
     return render(request, 'admin_portal/report.html')
 
 
 @login_required
+@admin_required
 def settings(request):
     return render(request, 'admin_portal/settings.html')
 
 
 @login_required
+@admin_required
 def coursereg(request):
     return render(request, 'admin_portal/coursereg.html')
