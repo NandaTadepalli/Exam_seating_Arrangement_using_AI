@@ -241,7 +241,8 @@ def student_list(request):
 def student_view(request, pk):
     # Using id instead of student_id
     student = get_object_or_404(Student, id=pk)
-    return render(request, 'admin_portal/student_detail.html', {'student': student})
+    user = student.user
+    return render(request, 'admin_portal/student_detail.html', {'student': student, 'user': user})
 
 
 @login_required
@@ -275,14 +276,14 @@ def faculty_list(request):
 @login_required
 @admin_required
 def faculty_view(request, pk):
-    faculty = Faculty.objects.get(faculty_id=pk)
+    faculty = Faculty.objects.get(emp_id=pk)
     return render(request, 'admin_portal/faculty_detail.html', {'faculty': faculty})
 
 
 @login_required
 @admin_required
 def faculty_edit(request, pk):
-    faculty = Faculty.objects.get(faculty_id=pk)
+    faculty = Faculty.objects.get(emp_id=pk)
     # Add form handling logic here if needed
     return render(request, 'admin_portal/faculty_edit.html', {'faculty': faculty})
 
@@ -290,7 +291,7 @@ def faculty_edit(request, pk):
 @login_required
 @admin_required
 def faculty_delete(request, pk):
-    faculty = Faculty.objects.get(faculty_id=pk)
+    faculty = Faculty.objects.get(emp_id=pk)
     # Add delete logic here if needed
     return render(request, 'admin_portal/faculty_delete.html', {'faculty': faculty})
 
