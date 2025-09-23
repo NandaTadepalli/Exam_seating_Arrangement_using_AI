@@ -1,90 +1,90 @@
 {% extends "admin_portal/base_admin.html" %}
 {% load static %}
 {% block main_content %}
-    <div class="pages-main">
-        <h1 class="pages-main-head">Room Management</h1>
-        <div class="note-and-actions">
-            <div class="note-text">
-                <p style="color: red;"><strong>Note:</strong> Upload room data in <strong>.csv</strong> format.</p>
-                <p style="color: red;">(Download the sample .csv file and add data in the specified structure to
-                    avoid errors)</p>
-            </div>
-            <div class="add-data">
-                <a class="control-btn" href="addroom.html">Add new room</a>
-                <label for="uploadFile" class="control-btn" style="cursor: pointer;">Upload File</label>
-                <input type="file" id="uploadFile" data-entity="room" style="display: none;" accept=".csv">
-                <a href="roomsdata.csv" download class="control-btn">Download Sample CSV</a>
-            </div>
+<div class="pages-main">
+    <h1 class="pages-main-head">Room Management</h1>
+    <div class="note-and-actions">
+        <div class="note-text">
+            <p style="color: red;"><strong>Note:</strong> Upload room data in <strong>.csv</strong> format.</p>
+            <p style="color: red;">(Download the sample .csv file and add data in the specified structure to
+                avoid errors)</p>
         </div>
-        <div class="controls">
-            <form onsubmit="return false;">
-                <label for="room-search">Search Room:</label>
-                <input type="text" id="room-search" placeholder="Enter Room ID or Block">
-
-                <label for="room-block">Block</label>
-                <select id="room-block">
-                    <option value="All">Select Block</option>
-                    <option value="A">A Block</option>
-                    <option value="B">B Block</option>
-                    <option value="C">C Block</option>
-                </select>
-
-                <label for="capacity-min">Capacity Min:</label>
-                <input type="number" id="capacity-min" min="0" placeholder="Min">
-
-                <label for="capacity-max">Capacity Max:</label>
-                <input type="number" id="capacity-max" min="0" placeholder="Max">
-
-            </form>
-        </div>
-        <div class="actions">
-            <button type="button" id="resetRoomFilters">
-                <img src="https://img.icons8.com/?size=100&id=12494&format=png&color=ffffff" alt="Reset_img">Reset
-            </button>
-            <button type="button" id="printRoomBtn">
-                <img src="https://img.icons8.com/?size=100&id=85372&format=png&color=ffffff" alt="Print_img">Print
-            </button>
-            <button type="button" id="downloadRoomBtn">
-                <img src="https://img.icons8.com/?size=100&id=83159&format=png&color=ffffff" alt="Download_img">Download
-                Data
-            </button>
-        </div>
-        <div class="table">
-            <table id="room-table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Room ID</th>
-                        <th>Block</th>
-                        <th>Room Capacity</th>
-                        <th>Rows</th>
-                        <th>Columns</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="rooms-list">
-                    {% for room in rooms %}
-                    <tr>
-                        <td>{{ forloop.counter }}</td>
-                        <td>{{ room.room_id }}</td>
-                        <td>{{ room.block }}</td>
-                        <td>{{ room.capacity }}</td>
-                        <td>{{ room.rowscount }}</td>
-                        <td>{{ room.columnscount }}</td>
-                        <td>
-                            <a href="{% url 'room_view' room.id %}" class="room-action-link">View</a>
-                            <a href="{% url 'room_edit' room.id %}" class="room-action-link">Edit</a>
-                            <a href="{% url 'room_delete' room.id %}" class="room-action-link">Delete</a>
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="7">No rooms found.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <div class="add-data">
+            <a class="control-btn" href="addroom.html">Add new room</a>
+            <label for="uploadFile" class="control-btn" style="cursor: pointer;">Upload File</label>
+            <input type="file" id="uploadFile" data-entity="room" style="display: none;" accept=".csv">
+            <a href="roomsdata.csv" download class="control-btn">Download Sample CSV</a>
         </div>
     </div>
-    <script src="{% static 'js/scripts.js' %}"></script>
+    <div class="controls">
+        <form onsubmit="return false;">
+            <label for="room-search">Search Room:</label>
+            <input type="text" id="room-search" placeholder="Enter Room ID or Block">
+
+            <label for="room-block">Block</label>
+            <select id="room-block">
+                <option value="All">Select Block</option>
+                <option value="A">A Block</option>
+                <option value="B">B Block</option>
+                <option value="C">C Block</option>
+            </select>
+
+            <label for="capacity-min">Capacity Min:</label>
+            <input type="number" id="capacity-min" min="0" placeholder="Min">
+
+            <label for="capacity-max">Capacity Max:</label>
+            <input type="number" id="capacity-max" min="0" placeholder="Max">
+
+        </form>
+    </div>
+    <div class="actions">
+        <button type="button" id="resetRoomFilters">
+            <img src="https://img.icons8.com/?size=100&id=12494&format=png&color=ffffff" alt="Reset_img">Reset
+        </button>
+        <button type="button" id="printRoomBtn">
+            <img src="https://img.icons8.com/?size=100&id=85372&format=png&color=ffffff" alt="Print_img">Print
+        </button>
+        <button type="button" id="downloadRoomBtn">
+            <img src="https://img.icons8.com/?size=100&id=83159&format=png&color=ffffff" alt="Download_img">Download
+            Data
+        </button>
+    </div>
+    <div class="table">
+        <table id="room-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Room ID</th>
+                    <th>Block</th>
+                    <th>Room Capacity</th>
+                    <th>Rows</th>
+                    <th>Columns</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="rooms-list">
+                {% for room in rooms %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ room.room_id }}</td>
+                    <td>{{ room.block }}</td>
+                    <td>{{ room.capacity }}</td>
+                    <td>{{ room.rowscount }}</td>
+                    <td>{{ room.columnscount }}</td>
+                    <td>
+                        <a href="{% url 'room_view' room.id %}" class="room-action-link">View</a>
+                        <a href="{% url 'room_edit' room.id %}" class="room-action-link">Edit</a>
+                        <a href="{% url 'room_delete' room.id %}" class="room-action-link">Delete</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7">No rooms found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="{% static 'js/scripts.js' %}"></script>
 {% endblock %}

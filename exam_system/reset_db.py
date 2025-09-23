@@ -5,6 +5,7 @@ from django.db import connection
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'exam_system.settings')
 django.setup()
 
+
 def reset_db():
     tables = [
         'faculty_portal_malpracticereport',
@@ -32,13 +33,14 @@ def reset_db():
         'django_migrations',
         'django_session'
     ]
-    
+
     with connection.cursor() as cursor:
         for table in tables:
             try:
                 cursor.execute(f'DROP TABLE IF EXISTS {table}')
             except Exception as e:
                 print(f"Error dropping {table}: {str(e)}")
+
 
 if __name__ == '__main__':
     reset_db()

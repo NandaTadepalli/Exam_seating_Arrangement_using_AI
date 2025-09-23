@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <style>
         body {
@@ -7,48 +8,54 @@
             line-height: 1.6;
             color: #333;
         }
+
         .container {
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
         }
+
         .header {
             background-color: #1a3c6d;
             color: white;
             padding: 20px;
             text-align: center;
         }
+
         .content {
             padding: 20px;
             background-color: #f9f9f9;
         }
+
         .footer {
             text-align: center;
             padding: 20px;
             font-size: 12px;
             color: #666;
         }
+
         .important {
             color: #cc0000;
             font-weight: bold;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
             <h2>{% if is_student %}Exam Notification{% else %}Exam Duty Assignment{% endif %}</h2>
         </div>
-        
+
         <div class="content">
             <p>Dear {{ recipient_name }},</p>
-            
+
             {% if is_student %}
             <p>This is to inform you about your upcoming examination:</p>
             {% else %}
             <p>You have been assigned examination duty for the following exam:</p>
             {% endif %}
-            
+
             <ul>
                 <li><strong>Exam:</strong> {{ exam_name }}</li>
                 <li><strong>Course:</strong> {{ course_name }}</li>
@@ -58,7 +65,7 @@
                 <li><strong>Assigned Room:</strong> {{ room }}</li>
                 {% endif %}
             </ul>
-            
+
             {% if is_student %}
             <p class="important">Please note:</p>
             <ul>
@@ -75,11 +82,12 @@
             </ul>
             {% endif %}
         </div>
-        
+
         <div class="footer">
             <p>This is an automated message. Please do not reply to this email.</p>
             <p>For any queries, please contact the examination department.</p>
         </div>
     </div>
 </body>
+
 </html>

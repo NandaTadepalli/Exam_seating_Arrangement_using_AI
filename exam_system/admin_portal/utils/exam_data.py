@@ -3,7 +3,7 @@ def create_exam_data():
     from faculty_portal.models import Exam
     from django.utils import timezone
     from datetime import timedelta
-    
+
     # Create some upcoming exams
     exam1 = Exam.objects.create(
         exam_name="Mid Semester Examination",
@@ -15,7 +15,7 @@ def create_exam_data():
         end_time="12:00:00",
         created_by=User.objects.get(username='admin')
     )
-    
+
     exam2 = Exam.objects.create(
         exam_name="Final Examination",
         exam_type="THEORY",
@@ -26,13 +26,13 @@ def create_exam_data():
         end_time="17:00:00",
         created_by=User.objects.get(username='admin')
     )
-    
+
     # Associate courses with exams
     courses = Course.objects.all()
     for course in courses[:3]:  # First 3 courses for exam1
         ExamCourse.objects.create(exam=exam1, course=course)
-    
+
     for course in courses[3:6]:  # Next 3 courses for exam2
         ExamCourse.objects.create(exam=exam2, course=course)
-    
+
     return [exam1, exam2]

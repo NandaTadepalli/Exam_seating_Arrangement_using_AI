@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from faculty_portal.models import Exam
 
+
 class ExamNotification(models.Model):
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
     sent_at = models.DateTimeField(auto_now_add=True)

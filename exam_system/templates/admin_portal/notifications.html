@@ -32,7 +32,7 @@
                             <td>{{ exam.exam_name }}</td>
                             <td>
                                 {% for exam_course in exam.examcourse_set.all %}
-                                    {{ exam_course.course.course_name }}{% if not forloop.last %}, {% endif %}
+                                {{ exam_course.course.course_name }}{% if not forloop.last %}, {% endif %}
                                 {% endfor %}
                             </td>
                             <td>{{ exam.exam_date|date:"d M Y" }}</td>
@@ -40,12 +40,12 @@
                             <td>{{ exam.year }}</td>
                             <td>{{ exam.semester }}</td>
                             <td>
-                                <button class="btn btn-primary send-notification" data-exam-id="{{ exam.id }}"
-                                        {% if exam.last_notification.status == 'SENT' %}disabled{% endif %}>
+                                <button class="btn btn-primary send-notification" data-exam-id="{{ exam.id }}" {% if
+                                    exam.last_notification.status=='SENT' %}disabled{% endif %}>
                                     {% if exam.last_notification.status == 'SENT' %}
-                                        Sent
+                                    Sent
                                     {% else %}
-                                        Send
+                                    Send
                                     {% endif %}
                                 </button>
                             </td>
@@ -87,19 +87,21 @@
                             <td>{{ notification.exam.exam_name }}</td>
                             <td>
                                 {% for exam_course in notification.exam.examcourse_set.all %}
-                                    {{ exam_course.course.course_name }}{% if not forloop.last %}, {% endif %}
+                                {{ exam_course.course.course_name }}{% if not forloop.last %}, {% endif %}
                                 {% endfor %}
                             </td>
                             <td>{{ notification.sent_at|date:"d M Y H:i" }}</td>
                             <td>
-                                <span class="badge {% if notification.status == 'SENT' %}badge-success{% elif notification.status == 'FAILED' %}badge-danger{% else %}badge-warning{% endif %}">
+                                <span
+                                    class="badge {% if notification.status == 'SENT' %}badge-success{% elif notification.status == 'FAILED' %}badge-danger{% else %}badge-warning{% endif %}">
                                     {{ notification.status }}
                                 </span>
                             </td>
                             <td>{{ notification.recipients_count }}</td>
                             <td>
-                                <button class="btn btn-secondary resend-notification" data-notification-id="{{ notification.id }}"
-                                        {% if notification.status == 'PENDING' %}disabled{% endif %}>
+                                <button class="btn btn-secondary resend-notification"
+                                    data-notification-id="{{ notification.id }}" {% if notification.status=='PENDING'
+                                    %}disabled{% endif %}>
                                     Resend
                                 </button>
                             </td>
@@ -122,91 +124,91 @@
 
 {% block extra_js %}
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Send notification handler
-    document.querySelectorAll('.send-notification').forEach(button => {
-        button.addEventListener('click', function() {
-            const examId = this.dataset.examId;
-            if (confirm('Are you sure you want to send notifications for this exam?')) {
-                button.disabled = true;
-                button.textContent = 'Sending...';
-                
-                fetch(`/admin-portal/send-exam-notification/${examId}/`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': getCookie('csrftoken')
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Notifications sent successfully!');
-                        window.location.reload();
-                    } else {
-                        alert('Error sending notifications: ' + data.error);
-                    }
-                })
-                .catch(error => {
-                    alert('Error sending notifications: ' + error);
-                })
-                .finally(() => {
-                    button.disabled = false;
-                    button.textContent = 'Send';
-                });
-            }
-        });
-    });
+    document.addEventListener('DOMContentLoaded', function () {
+        // Send notification handler
+        document.querySelectorAll('.send-notification').forEach(button => {
+            button.addEventListener('click', function () {
+                const examId = this.dataset.examId;
+                if (confirm('Are you sure you want to send notifications for this exam?')) {
+                    button.disabled = true;
+                    button.textContent = 'Sending...';
 
-    // Resend notification handler
-    document.querySelectorAll('.resend-notification').forEach(button => {
-        button.addEventListener('click', function() {
-            const notificationId = this.dataset.notificationId;
-            if (confirm('Are you sure you want to resend these notifications?')) {
-                button.disabled = true;
-                button.textContent = 'Resending...';
-                
-                fetch(`/admin-portal/resend-notification/${notificationId}/`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': getCookie('csrftoken')
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Notifications resent successfully!');
-                        window.location.reload();
-                    } else {
-                        alert('Error resending notifications: ' + data.error);
-                    }
-                })
-                .catch(error => {
-                    alert('Error resending notifications: ' + error);
-                })
-                .finally(() => {
-                    button.disabled = false;
-                    button.textContent = 'Resend';
-                });
-            }
+                    fetch(`/admin-portal/send-exam-notification/${examId}/`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': getCookie('csrftoken')
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('Notifications sent successfully!');
+                                window.location.reload();
+                            } else {
+                                alert('Error sending notifications: ' + data.error);
+                            }
+                        })
+                        .catch(error => {
+                            alert('Error sending notifications: ' + error);
+                        })
+                        .finally(() => {
+                            button.disabled = false;
+                            button.textContent = 'Send';
+                        });
+                }
+            });
         });
-    });
 
-    // Helper function to get CSRF token
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
+        // Resend notification handler
+        document.querySelectorAll('.resend-notification').forEach(button => {
+            button.addEventListener('click', function () {
+                const notificationId = this.dataset.notificationId;
+                if (confirm('Are you sure you want to resend these notifications?')) {
+                    button.disabled = true;
+                    button.textContent = 'Resending...';
+
+                    fetch(`/admin-portal/resend-notification/${notificationId}/`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': getCookie('csrftoken')
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('Notifications resent successfully!');
+                                window.location.reload();
+                            } else {
+                                alert('Error resending notifications: ' + data.error);
+                            }
+                        })
+                        .catch(error => {
+                            alert('Error resending notifications: ' + error);
+                        })
+                        .finally(() => {
+                            button.disabled = false;
+                            button.textContent = 'Resend';
+                        });
+                }
+            });
+        });
+
+        // Helper function to get CSRF token
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
                 }
             }
+            return cookieValue;
         }
-        return cookieValue;
-    }
-});
+    });
 </script>
 {% endblock %}
 {% endblock %}

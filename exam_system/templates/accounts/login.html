@@ -11,6 +11,15 @@
         <div class="login-fields" title="Please enter your credentials to login">
             <img class="login-icon" src="https://img.icons8.com/?size=100&id=1Wf241bLN9LO&format=png&color=1E3A5F" alt="LoginIcon">
             <h1>Login</h1>
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
             <form method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
