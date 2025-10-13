@@ -9,18 +9,33 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 </head>
 <body>
-    <button class="hamburger" id="openSidebarBtn" aria-label="Open sidebar">
-    <span></span>
-    <span></span>
-    <span></span>
+  <button class="hamburger" id="openSidebarBtn" aria-label="Open sidebar">
+  <span></span>
+  <span></span>
+  <span></span>
   </button>
+
+  <!-- Popup Messages -->
+  {% if messages %}
+  <div id="popup-messages">
+    {% for message in messages %}
+      <div class="popup-message popup-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+  <script>
+  setTimeout(function() {
+    var popup = document.getElementById('popup-messages');
+    if (popup) popup.style.display = 'none';
+  }, 3500);
+  </script>
+  {% endif %}
     <div id="page">
         <div id="sidebar">
             <button class="close-btn" id="closeSidebarBtn" aria-label="Close sidebar">&times;</button>
             <div class="sidebar-pic">
                 <img src="{% static 'images/user.jpg' %}" alt="User_Profile_Picture" style="width: 50px; height: 50px; border-radius: 50%; padding: 7px;">
                 <p style="font-size: 22px; font-family: 'Times New Roman', Times, serif; color: whitesmoke; word-wrap: break-word;max-width: 150px;">
-                    {{ user.username }}</p>
+                    {{ user.first_name }}</p>
             </div>
             <div class="sidebar-links">
                 <ul>

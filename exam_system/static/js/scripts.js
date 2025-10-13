@@ -1,3 +1,118 @@
+// ============ PIE CHART FOR DASHBOARD ============
+document.addEventListener('DOMContentLoaded', function() {
+    const pie = document.getElementById('userPieChart');
+    if (pie) {
+        const adminCount = Number(pie.getAttribute('data-admin'));
+        const facultyCount = Number(pie.getAttribute('data-faculty'));
+        const studentCount = Number(pie.getAttribute('data-student'));
+        const total = adminCount + facultyCount + studentCount;
+        const data = [adminCount, facultyCount, studentCount];
+        const labels = [
+            `Admin (${adminCount})`,
+            `Faculty (${facultyCount})`,
+            `Students (${studentCount})`
+        ];
+        // ...existing code...
+        const ctx = pie.getContext('2d');
+        // Vibrant, sharp-edged pie chart with solid colors
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        '#2563eb', // Vivid blue
+                        '#10b981', // Vivid green
+                        '#f59e42'  // Vivid orange
+                    ],
+                    borderColor: [
+                        'rgba(0,0,0,0)',
+                        'rgba(0,0,0,0)',
+                        'rgba(0,0,0,0)'
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 14,
+                    borderRadius: 0 // sharp edges
+                }]
+            },
+            options: {
+                responsive: true,
+                animation: {
+                    animateRotate: true,
+                    animateScale: true,
+                    duration: 900,
+                    easing: 'easeOutCubic'
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            font: { size: 16, family: 'Poppins, Arial' },
+                            color: '#1E3A5F',
+                            padding: 18,
+                            boxWidth: 22,
+                            usePointStyle: true,
+                            pointStyle: 'rect'
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: '#fff',
+                        titleColor: '#1E3A5F',
+                        bodyColor: '#1E3A5F',
+                        borderColor: '#2563eb',
+                        borderWidth: 1,
+                        padding: 14,
+                        cornerRadius: 8,
+                        callbacks: {
+                            label: function(context) {
+                                const value = context.parsed;
+                                const percent = total ? ((value / total) * 100).toFixed(1) : 0;
+                                return `${context.label}: ${value} (${percent}%)`;
+                            }
+                        }
+                    }
+                },
+                layout: {
+                    padding: 10
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true,
+                    animationDuration: 400
+                }
+            },
+            plugins: [
+                {
+                    id: 'piePercentLabels',
+                    afterDraw(chart) {
+                        const {ctx, chartArea, data} = chart;
+                        if (!chartArea) return;
+                        chart.getDatasetMeta(0).data.forEach((arc, i) => {
+                            const value = data.datasets[0].data[i];
+                            const percent = total ? ((value / total) * 100).toFixed(1) : 0;
+                            const model = arc;
+                            const angle = (model.startAngle + model.endAngle) / 2;
+                            // For small values, move label closer to center
+                            let radius = model.outerRadius - 38;
+                            if (percent < 10) radius = model.outerRadius - 60;
+                            const x = model.x + Math.cos(angle) * radius;
+                            const y = model.y + Math.sin(angle) * radius;
+                            ctx.save();
+                            ctx.font = 'bold 15px Poppins, Arial';
+                            ctx.fillStyle = '#1E3A5F';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillText(percent + '%', x, y);
+                            ctx.restore();
+                        });
+                    }
+                }
+            ]
+        });
+    }
+});
 // ============ STUDENT FUNCTIONS ============
 function initializeStudentFilters() {
     const searchInput = document.getElementById('search');

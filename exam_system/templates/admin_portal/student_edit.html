@@ -1,18 +1,19 @@
 {% extends "admin_portal/base_admin.html" %}
 {% load static %}
 {% block main_content %}
-    <div class="pages-main">
-        <h2>Edit Student ({{ student.student_id }})</h2>
+    <div class="edit-form">
+        <h2>Edit Student ({{ student.id }}-{{ user.first_name }} {{user.last_name}})</h2>
         <form method="post">
-            <!-- Add form fields here for editing -->
-            <p>Name: <input type="text" name="name" value="{{ student.name }}" /></p>
-            <p>Department: <input type="text" name="department" value="{{ student.department }}" /></p>
-            <p>Study Year: <input type="number" name="study_year" value="{{ student.study_year }}" /></p>
-            <p>Semester: <input type="text" name="semester" value="{{ student.semester }}" /></p>
-            <p>Mobile: <input type="text" name="mobile" value="{{ student.mobile }}" /></p>
-            <p>Email: <input type="email" name="email" value="{{ student.email }}" /></p>
+            {% csrf_token %}
+            <p>First Name: <input type="text" name="first_name" value="{{ user.first_name }}" /></p>
+            <p>Last Name: <input type="text" name="last_name" value="{{ user.last_name }}" /></p>
+            <p>Department ID: <input type="text" name="department" value="{{ student.department_id }}" /></p>
+            <p>Year: <input type="number" name="year" value="{{ student.year }}" /></p>
+            <p>Semester: <input type="number" name="semester" value="{{ student.semester }}" /></p>
+            <p>Phone: <input type="text" name="phone" value="{{ student.phone }}" /></p>
+            <p>Email: <input type="email" name="email" value="{{ user.email }}" /></p>
             <button type="submit">Save</button>
         </form>
-        <a href="{% url 'admin-students' %}" class="student-action-link">Back to Student List</a>
+        <a href="{% url 'admin-students' %}" class="action-link">Back to Student List</a>
     </div>
 {% endblock %}

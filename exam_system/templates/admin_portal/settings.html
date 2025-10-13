@@ -3,7 +3,14 @@
 {% block main_content %}
     <div class="pages-main">
         <h1 class="pages-main-head">Settings</h1>
-        <p>This page is under construction. Please check back later.</p>
-        <p>For now, you can navigate to other sections using the sidebar.</p>
+        <div class="settings-container">
+            <div class="settings-card">
+                <h2 class="settings-card-head">Add Users</h2>
+                <p class="setting-paragraph">Add new faculty or students to the system.</p>
+                <label for="uploadFile" class="settings-card-link" style="cursor: pointer;">Upload File</label>
+                <input type="file" id="uploadFile" style="display: none;" accept=".csv, .xlsx">
+                <a href="usersdata.csv" download class="settings-card-link">Download Sample CSV</a>
+            </div>
+        </div>
     </div>
 {% endblock %}

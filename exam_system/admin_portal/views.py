@@ -1,3 +1,53 @@
+from django.http import JsonResponse
+from django.shortcuts import render, get_object_or_404, redirect
+from django.db import transaction, IntegrityError
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+from django.utils import timezone
+import csv
+import io
+
+from student_portal.models import Student, Course
+from faculty_portal.models import Faculty, Exam
+from .models import Room, ExamNotification
+from .utils.email_utils import send_exam_notification
+from .decorators import admin_required
+
+# API endpoint for dashboard popup data
+@login_required
+@admin_required
+def dashboard_data(request):
+    from accounts.models import User, Faculty, Student
+    type_ = request.GET.get('type')
+    if type_ == 'users':
+        users = User.objects.all()
+        title = 'All Users'
+        headers = ['ID', 'Username', 'First Name', 'Last Name', 'Last Login', 'Email', 'Created At']
+        rows = [[u.id, u.username, u.first_name, u.last_name, u.last_login, u.email, u.created_at] for u in users]
+    elif type_ == 'active_users':
+        users = User.objects.filter(is_active=True)
+        title = 'Active Users'
+        headers = ['ID', 'Username', 'First Name', 'Last Name', 'Last Login', 'Email', 'Created At']
+        rows = [[u.id, u.username, u.first_name, u.last_name, u.last_login, u.email, u.created_at] for u in users]
+    elif type_ == 'admin_users':
+        users = User.objects.filter(role='ADMIN')
+        title = 'Admin Users'
+        headers = ['ID', 'Username', 'First Name', 'Last Name', 'Last Login', 'Email', 'Created At']
+        rows = [[u.id, u.username, u.first_name, u.last_name, u.last_login, u.email, u.created_at] for u in users]
+    elif type_ == 'faculty':
+        faculty = Faculty.objects.select_related('user').all()
+        title = 'Faculty'
+        headers = ['ID', 'Username', 'First Name', 'Last Name', 'Last Login', 'Email', 'Created At']
+        rows = [[f.user.id, f.user.username, f.user.first_name, f.user.last_name, f.user.last_login, f.user.email, f.user.created_at] for f in faculty]
+    elif type_ == 'students':
+        students = Student.objects.select_related('user').all()
+        title = 'Students'
+        headers = ['ID', 'Username', 'First Name', 'Last Name', 'Last Login', 'Email', 'Created At']
+        rows = [[s.user.id, s.user.username, s.user.first_name, s.user.last_name, s.user.last_login, s.user.email, s.user.created_at] for s in students]
+    else:
+        return JsonResponse({'error': 'Invalid type'}, status=400)
+    return JsonResponse({'title': title, 'headers': headers, 'rows': rows})
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.db import transaction, IntegrityError
@@ -32,15 +82,28 @@ def room_view(request, pk):
 
 @login_required
 def room_edit(request, pk):
+    from django.contrib import messages
     room = get_object_or_404(Room, pk=pk)
-    # Add form handling logic here if needed
+    if request.method == 'POST':
+        room.block = request.POST.get('block', room.block)
+        room.capacity = request.POST.get('capacity', room.capacity)
+        room.rowscount = request.POST.get('rowscount', room.rowscount)
+        room.columnscount = request.POST.get('columnscount', room.columnscount)
+        room.save()
+        messages.success(request, f"Room '{room.room_id}' updated successfully!")
+        return redirect('admin-rooms')
     return render(request, 'admin_portal/room_edit.html', {'room': room})
 
 
 @login_required
 def room_delete(request, pk):
+    from django.contrib import messages
     room = get_object_or_404(Room, pk=pk)
-    # Add delete logic here if needed
+    if request.method == 'POST':
+        room_id = room.room_id
+        room.delete()
+        messages.error(request, f"Room '{room_id}' deleted successfully!")
+        return redirect('admin-rooms')
     return render(request, 'admin_portal/room_delete.html', {'room': room})
 
 
@@ -248,16 +311,35 @@ def student_view(request, pk):
 @login_required
 @admin_required
 def student_edit(request, pk):
-    student = get_object_or_404(Student, student_id=pk)
-    # Add form handling logic here if needed
-    return render(request, 'admin_portal/student_edit.html', {'student': student})
+    student = get_object_or_404(Student, id=pk)
+    user = student.user
+    from django.contrib import messages
+    if request.method == 'POST':
+        # Update fields from form
+        user.first_name = request.POST.get('first_name', user.first_name)
+        user.last_name = request.POST.get('last_name', user.last_name)
+        user.email = request.POST.get('email', user.email)
+        student.department_id = request.POST.get('department', student.department_id)
+        student.year = request.POST.get('year', student.year)
+        student.semester = request.POST.get('semester', student.semester)
+        student.phone = request.POST.get('phone', student.phone)
+        user.save()
+        student.save()
+        messages.success(request, f"Student '{user.first_name} {user.last_name}' updated successfully!")
+        return redirect('admin-students')
+    return render(request, 'admin_portal/student_edit.html', {'student': student, 'user': user})
 
 
 @login_required
 @admin_required
 def student_delete(request, pk):
-    student = get_object_or_404(Student, student_id=pk)
-    # Add delete logic here if needed
+    student = get_object_or_404(Student, id=pk)
+    from django.contrib import messages
+    if request.method == 'POST':
+        student_name = f"{student.user.first_name} {student.user.last_name}"
+        student.delete()
+        messages.error(request, f"Student '{student_name}' deleted successfully!")
+        return redirect('admin-students')
     return render(request, 'admin_portal/student_delete.html', {'student': student})
 
 
@@ -284,15 +366,32 @@ def faculty_view(request, pk):
 @admin_required
 def faculty_edit(request, pk):
     faculty = Faculty.objects.get(emp_id=pk)
-    # Add form handling logic here if needed
-    return render(request, 'admin_portal/faculty_edit.html', {'faculty': faculty})
+    user = faculty.user
+    from django.contrib import messages
+    if request.method == 'POST':
+        user.first_name = request.POST.get('first_name', user.first_name)
+        user.last_name = request.POST.get('last_name', user.last_name)
+        user.email = request.POST.get('email', user.email)
+        faculty.department_id = request.POST.get('department', faculty.department_id)
+        faculty.phone = request.POST.get('phone', faculty.phone)
+        user.save()
+        faculty.save()
+        messages.success(request, f"Faculty '{user.first_name} {user.last_name}' updated successfully!")
+        return redirect('admin-faculty')
+    return render(request, 'admin_portal/faculty_edit.html', {'faculty': faculty, 'user': user})
 
 
 @login_required
 @admin_required
 def faculty_delete(request, pk):
     faculty = Faculty.objects.get(emp_id=pk)
-    # Add delete logic here if needed
+    from django.contrib import messages
+    if request.method == 'POST':
+        faculty_name = f"{faculty.user.first_name} {faculty.user.last_name}"
+        faculty.user.delete()
+        faculty.delete()
+        messages.error(request, f"Faculty '{faculty_name}' deleted successfully!")
+        return redirect('admin-faculty')
     return render(request, 'admin_portal/faculty_delete.html', {'faculty': faculty})
 
 
@@ -301,9 +400,20 @@ from .decorators import admin_required
 @login_required
 @admin_required
 def dashboard(request):
+    from accounts.models import User, Student, Faculty
+    total_users = User.objects.count()
+    active_users = User.objects.filter(is_active=True).count()
+    admin_users = User.objects.filter(role='ADMIN').count()
+    faculty_count = Faculty.objects.count()
+    student_count = Student.objects.count()
     return render(request, 'admin_portal/dashboard.html', {
         'page_title': 'Admin Dashboard',
-        'user': request.user
+        'user': request.user,
+        'total_users': total_users,
+        'active_users': active_users,
+        'admin_users': admin_users,
+        'faculty_count': faculty_count,
+        'student_count': student_count,
     })
 
 

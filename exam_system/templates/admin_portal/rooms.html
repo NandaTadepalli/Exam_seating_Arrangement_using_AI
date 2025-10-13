@@ -69,8 +69,8 @@
                     <td>{{ room.room_id }}</td>
                     <td>{{ room.block }}</td>
                     <td>{{ room.capacity }}</td>
-                    <td>{{ room.rowscount }}</td>
-                    <td>{{ room.columnscount }}</td>
+                    <td>{{ room.rows }}</td>
+                    <td>{{ room.columns }}</td>
                     <td>
                         <a href="{% url 'room_view' room.id %}" class="room-action-link">View</a>
                         <a href="{% url 'room_edit' room.id %}" class="room-action-link">Edit</a>
