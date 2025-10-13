@@ -1,15 +1,17 @@
 {% extends "admin_portal/base_admin.html" %}
 {% load static %}
 {% block main_content %}
-    <div class="pages-main">
-        <h2>Edit Faculty ({{ faculty.faculty_id }})</h2>
+    <div class="edit-form">
+        <h2>Edit Faculty ({{ faculty.emp_id }}-{{ user.first_name }} {{user.last_name}})</h2>
         <form method="post">
-            <p>Name: <input type="text" name="name" value="{{ faculty.name }}" /></p>
-            <p>Department: <input type="text" name="department" value="{{ faculty.department }}" /></p>
-            <p>Mobile: <input type="text" name="mobile" value="{{ faculty.mobile }}" /></p>
-            <p>Email: <input type="email" name="email" value="{{ faculty.email }}" /></p>
+            {% csrf_token %}
+            <p>First Name: <input type="text" name="first_name" value="{{ user.first_name }}" /></p>
+            <p>Last Name: <input type="text" name="last_name" value="{{ user.last_name }}" /></p>
+            <p>Department ID: <input type="text" name="department" value="{{ faculty.department_id }}" /></p>
+            <p>Phone: <input type="text" name="phone" value="{{ faculty.phone }}" /></p>
+            <p>Email: <input type="email" name="email" value="{{ user.email }}" /></p>
             <button type="submit">Save</button>
         </form>
-        <a href="{% url 'admin-faculty' %}" class="action-link student-action-link">Back to Faculty List</a>
+        <a href="{% url 'admin-faculty' %}" class="action-link">Back to Faculty List</a>
     </div>
 {% endblock %}

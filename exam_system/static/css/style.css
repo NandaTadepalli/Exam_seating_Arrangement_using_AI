@@ -1,3 +1,124 @@
+/* Popup Message Styles */
+#popup-messages {
+  position: fixed;
+  top: 32px;
+  right: 32px;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 220px;
+}
+.popup-message {
+  padding: 16px 28px;
+  border-radius: 8px;
+  font-size: 1.08rem;
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(30,58,95,0.13);
+  animation: fadeInPopup 0.5s;
+  opacity: 0.98;
+}
+.popup-success { background: #22c55e; border-left: 6px solid #15803d; }
+.popup-error { background: #ef4444; border-left: 6px solid #b91c1c; }
+.popup-warning { background: #f59e42; border-left: 6px solid #b45309; }
+.popup-info { background: #2563eb; border-left: 6px solid #1e40af; }
+@keyframes fadeInPopup {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 0.98; transform: translateY(0); }
+}
+/* Edit & Delete Form Styles for Student/Faculty */
+.edit-form, .delete-form {
+  background: #f8fafc;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(30,58,95,0.08);
+  padding: 32px 28px 24px 28px;
+  max-width: 480px;
+  margin: 32px auto 0 auto;
+  font-family: 'Poppins', sans-serif;
+}
+
+.edit-form h2, .delete-form h2 {
+  color: #1E3A5F;
+  font-size: 1.6rem;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.edit-form p, .delete-form p {
+  margin-bottom: 18px;
+  font-size: 1.05rem;
+}
+
+.edit-form input[type="text"],
+.edit-form input[type="number"],
+.edit-form input[type="email"],
+.edit-form input[type="password"],
+.edit-form select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #2C4C70;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #f5f7fa;
+  margin-top: 4px;
+  margin-bottom: 10px;
+  transition: border 0.2s;
+}
+
+.edit-form input:focus, .edit-form select:focus {
+  border: 2px solid #1E3A5F;
+  background: #eaf0fa;
+}
+
+.edit-form button, .delete-form button {
+  background: linear-gradient(90deg, #1E3A5F 60%, #3c5f88 100%);
+  color: #fff;
+  padding: 12px 0;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  margin-top: 10px;
+  width: 100%;
+  box-shadow: 0 2px 8px rgba(30,58,95,0.10);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.edit-form button:hover, .delete-form button:hover {
+  background: linear-gradient(90deg, #3c5f88 0%, #1E3A5F 100%);
+  box-shadow: 0 4px 16px rgba(30,58,95,0.18);
+}
+
+.delete-form {
+  border: 2px solid #f56565;
+  background: #fff5f5;
+}
+.delete-form p {
+  color: #d32f2f;
+  font-weight: 500;
+  text-align: center;
+}
+.delete-form .action-link, .edit-form .action-link {
+  display: block;
+  margin: 18px auto 0 auto;
+  background: #e2e8f0;
+  color: #1E3A5F;
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-align: center;
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  width: 60%;
+  transition: background 0.2s;
+}
+.delete-form .action-link:hover, .edit-form .action-link:hover {
+  background: #cbd5e1;
+}
 /* Reset and Base Styles */
 
 * {
@@ -663,11 +784,6 @@ table tbody tr td li {
     font-size: 1.4rem;
   }
 }
-/* 
-.login-icon{
-  border: 2px solid #1E3A5F;
-  border-radius: 50%;
-} */
 
 .next_button {
   display: flex;
@@ -692,3 +808,185 @@ table tbody tr td li {
 .btn-nxt:hover {
   background: linear-gradient(90deg, #3c5f88 0%, #1E3A5F 100%);
 }
+
+.settings-card {
+  background: #ffffff73;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  padding: 25px;
+  max-width: 400px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.settings-card-head {
+  color: #1E3A5F;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  text-align: auto;
+  font-weight: 300;
+}
+
+.settings-card .setting-paragraph {
+  color: #e0e7ff;
+  font-size: 1rem;
+  line-height: 1.4;
+  margin-bottom: 15px;
+}
+
+.settings-card-link {
+  display: inline-block;
+  margin-top: 10px;
+  background: #f5d36f;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #1E3A5F;
+}
+
+.dashboard-cards {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.dashboard {
+  background: #ffffff73;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  padding: 25px;
+  max-width: 400px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.dashboard-head {
+  color: #1E3A5F;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  text-align: auto;
+  font-weight: 300;
+}
+
+.dashboard .dashboard-paragraph {
+  color: #2563eb;
+  font-size: 1rem;
+  line-height: 1.4;
+  margin-bottom: 15px;
+}
+
+.dashboard-count-link {
+  color: #2563eb;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+.dashboard-count-link:hover {
+  color: #1e40af;
+}
+
+.dashboard-popup {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(30, 41, 59, 0.25);
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dashboard-popup-content {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 32px rgba(30,58,95,0.18);
+  padding: 32px 36px 24px 36px;
+  min-width: 600px;
+  max-width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+}
+.dashboard-popup-close {
+  position: absolute;
+  top: 16px;
+  right: 24px;
+  font-size: 2rem;
+  color: #ef4444;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 10;
+}
+.dashboard-popup-content h2 {
+  margin-top: 0;
+  margin-bottom: 18px;
+  color: #1E3A5F;
+  font-size: 1.4rem;
+  text-align: center;
+}
+.dashboard-popup-table-wrapper {
+  overflow-x: auto;
+}
+.dashboard-popup-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.01rem;
+}
+.dashboard-popup-table th, .dashboard-popup-table td {
+  border: 1px solid #cbd5e1;
+  padding: 8px 14px;
+  text-align: left;
+}
+.dashboard-popup-table th {
+  background: #f1f5f9;
+  color: #1E3A5F;
+  font-weight: 600;
+}
+.dashboard-popup-table tr:nth-child(even) {
+  background: #f8fafc;
+}
+.dashboard-popup-table tr:hover {
+  background: #e0e7ef;
+}
+
+/* Pie Chart Styles - Only necessary rules */
+.dashboard-pie-container {
+  max-width: 420px;
+  background: linear-gradient(135deg, #f8fafc 70%, #e0e7ef 100%);
+  border-radius: 22px;
+  box-shadow: 0 6px 32px 0 rgba(30,58,95,0.13), 0 1.5px 4px 0 rgba(30,58,95,0.04);
+  padding: 32px 22px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1.5px solid #e5e7eb;
+}
+.dashboard-pie-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.22rem;
+  color: #1E3A5F;
+  font-weight: 700;
+  margin-bottom: 16px;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+#userPieChart {
+  max-width: 340px;
+  max-height: 340px;
+  margin: 0 auto 0 auto;
+  background: transparent;
+  border-radius: 50%;
+  box-shadow: none;
+  padding: 0;
+  display: block;
+  border: none;
+  transition: transform 0.2s;
+}
+#userPieChart:hover {
+  transform: scale(1.025);
+}
+

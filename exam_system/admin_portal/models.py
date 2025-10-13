@@ -27,26 +27,6 @@ def generate_error_csv(errors):
     return output.getvalue()
 
 
-class Room(models.Model):
-    """
-    Room model with improved details
-    """
-    room_id = models.CharField(max_length=20, unique=True, db_index=True)
-    block = models.CharField(max_length=50)
-    capacity = models.IntegerField()
-    rowscount = models.IntegerField(blank=True, null=True)
-    columnscount = models.IntegerField(blank=True, null=True)
-    created_at = models.DateTimeField(default=timezone.now)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        db_table = 'room'
-        verbose_name = 'Room'
-        verbose_name_plural = 'Rooms'
-        ordering = ['room_id']
-
-    def __str__(self):
-        return self.room_id
 
 
 class ExamNotification(models.Model):

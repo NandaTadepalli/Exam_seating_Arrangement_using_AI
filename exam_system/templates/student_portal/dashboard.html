@@ -1,13 +1,23 @@
+{% extends "student_portal/base_student.html" %}
+{% load static %}
+{% block main_content %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <h1>Welcome Student: {{ user.username }}</h1>
-
+    <div class="pages-main">
+        <h1 class="pages-main-head">Welcome to the Student Dashboard</h1>
+        <p>Select an option from the sidebar to manage your profile.</p>
+    </div>
 </body>
 
 </html>
+{% endblock %}

@@ -1,23 +1,20 @@
 {% extends "admin_portal/base_admin.html" %}
 {% load static %}
 {% block main_content %}
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-</head>
-
-<body>
-    <div class="pages-main">
-        <h1 class="pages-main-head">Welcome to the Admin Dashboard</h1>
-        <p>Select an option from the sidebar to manage the system.</p>
+<div class="pages-main">
+    <h1 class="pages-main-head">Welcome to the Admin Dashboard</h1>
+    <div class="dashboard-cards">
+        <div class="dashboard-pie-container">
+            <div class="dashboard-pie-title">User Distribution</div>
+            <canvas id="userPieChart"
+                data-admin="{{ admin_users|add:'0' }}"
+                data-faculty="{{ faculty_count|add:'0' }}"
+                data-student="{{ student_count|add:'0' }}">
+            </canvas>
+                <span>Total users: <b>{{ total_users }}</b></span>
+                <span>Active users: <b>{{ active_users }}</b></span>
+        </div>
     </div>
-</body>
-
-</html>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% endblock %}
