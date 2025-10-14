@@ -23,6 +23,9 @@ class Department(models.Model):
 
 
 class User(AbstractUser):
+    # Custom primary key: user_id will be used as the database primary key.
+    # NOTE: this change requires recreating the database (or careful migrations).
+    user_id = models.CharField(max_length=100, primary_key=True)
     ROLES = [
         ('ADMIN', 'Administrator'),
         ('FACULTY', 'Faculty Member'),

@@ -1,0 +1,6 @@
+username,email,password,user_id,first_name,last_name,role
+admin,admin@example.com,AdminPass123!,UID0001,Admin,User,ADMIN
+faculty1,faculty1@example.com,FacPass123!,UFA001,Alice,Smith,FACULTY
+student1,student1@example.com,StudPass123!,UST001,Bob,Johnson,STUDENT
+staff1,staff1@example.com,StaffPass123!,UST002,Carol,Lee,STAFF
+user2,user2@example.com,UserPass123!,UID0002,David,Wong,STUDENT
